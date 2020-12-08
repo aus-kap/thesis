@@ -50,7 +50,7 @@ wordcount         : "X"
 
 bibliography      : ["r-references.bib"]
 
-floatsintext      : no
+floatsintext      : yes
 figurelist        : no
 tablelist         : no
 footnotelist      : no
@@ -92,6 +92,103 @@ Several factors may influence whether or not one is able to make an accurate con
 
 We used RStudio to create a model of memory. The model we developed attempts to help us understand the way in which contingency judgements are made. Our model was presented with six different conditions. Three were high outcome density and three were low outcome density conditions. Low outcome density refers to a trial in which fewer outcomes were presented than cues. High outcome density refers to trials where more outcomes were presented than cues. Four types of trials can be presented to the model. The model can be presented with a cue and no outcome, no cue and no outcome,  a cue and an outcome, or no cue and an outcome. Our model was shown all four combinations. It was then asked to predict, based on all of the combinations that it had been presented with, whether an outcome would occur given that cues were presented first with no outcomes. The three types of streams presented were noncontingent, contingent, and negative contingent. Noncontingent refers to trials where cues and outcomes were presented randomly, with neither meant to predict the other. Contingent refers to when an outcome was predicted given a cue. Negative contingent refers to when an outcome was predicted despite no cue given. 
 The original experiment by Crump et al. involved a blue square being presented as the cue and a red circle being presented as the outcome. Our model presents cues and outcomes to the model as sets of 0s and 1s. 0 being not present, 1 being present.
+
+# Simulation 1
+
+```{r, echo=FALSE}
+### Model code for simulation 1
+
+## create contingency task trials
+
+create_trials <- function(A, B, C, D, vector_length, shuffle=FALSE){
+  
+  event_frequencies <- rep(c(1,2,3,4), times = c(A,B,C,D))
+  
+  event_pairs <- matrix(c(rep(c(1,1,1), each = vector_length),
+                          rep(c(1,0,1), each = vector_length),
+                          rep(c(0,1,1), each = vector_length),
+                          rep(c(0,0,1), each = vector_length)),
+                      ncol= vector_length*3,
+                      byrow=TRUE)
+  
+  event_matrix <- event_pairs[event_frequencies,]
+  
+  if(shuffle==FALSE) {return(event_matrix)
+    }else{
+    return(event_matrix[sample(1:length(event_frequencies)),])
+    }
+  
+}
+
+## Run the model function
+
+run_model <- function(trials,probe){
+  memory <- trials
+
+#probe memory with cue only
+
+  similarities <- c()
+  for(i in 1:dim(memory)[1]){
+    similarities[i] <- lsa::cosine(probe,memory[i,])
+  }
+  similarities[is.nan(similarities)]<-0
+  
+  # generate echo
+  weighted_memory <- memory*(similarities^3)
+  echo <- colSums(weighted_memory)
+  
+  return(echo)
+}
+
+### DEFINE conditions
+
+conditions <- list(list(outcome_density = .2,
+                        delta_p = 0,
+                        frequencies = c(6,24,6,24)),
+                   list(outcome_density = .8,
+                        delta_p = 0,
+                        frequencies = c(24,6,24,6)),
+                   list(outcome_density = .33,
+                        delta_p = .467,
+                        frequencies = c(17,13,3,27)),
+                   list(outcome_density = .67,
+                        delta_p = .467,
+                        frequencies = c(27,3,13,17))
+                   )
+
+model_data<-data.frame() #initialize data frame
+
+## Run the model across conditions
+
+for(i in 1:4){
+  trials <- create_trials(A=conditions[[i]]$frequencies[1],
+                          B=conditions[[i]]$frequencies[2],
+                          C=conditions[[i]]$frequencies[3],
+                          D=conditions[[i]]$frequencies[4],
+                          vector_length = 10,
+                          shuffle=TRUE)
+  model_output <- run_model(trials=trials,probe = rep(c(1,0,1),each=10))
+  sim_data <- data.frame(outcome_density = conditions[[i]]$outcome_density,
+                         delta_p = conditions[[i]]$delta_p,
+                         expectation = model_output[11])
+  model_data <- rbind(model_data,sim_data)
+}
+
+# print table
+#knitr::kable(model_data)
+```
+
+```{r, fig.cap = "Write a caption for figure 1"}
+# plot
+library(ggplot2)
+
+ggplot(model_data,aes(x=outcome_density,
+                      y=expectation,
+                      group=delta_p,
+                      color=delta_p))+
+  geom_line()+
+  geom_point()
+```
 
 # Results
 
