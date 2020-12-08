@@ -1,0 +1,648 @@
+---
+title: "MINERVA Contingency"
+author: "Matt Crump"
+date: "10/14/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+In the past two assignments we have built a MINERVA 2 model that reconstructs prototye patterns from noisy exemplars, and we have created some functions to represent a contingency judgment task to a MINERVA model. Our next step is to present the contingency task to MINERVA and see how it performs.
+
+Here is a function that creates a series of event pairs, or contingency task trials. Each row in the matrix is an event pair. The first field is for the cue (1s if present, 0s if absent). The second field is for the outcome (1s if present, 0s if absent). The field length is set by vector_length. In the example, vector_length is set to 10, for a total length of 20 (two fields of 10).
+
+```{r}
+
+## create contingency task trials
+
+create_trials <- function(A, B, C, D, vector_length, shuffle=FALSE){
+  
+  event_frequencies <- rep(c(1,2,3,4), times = c(A,B,C,D))
+  
+  event_pairs <- matrix(c(rep(c(1,1,1), each = vector_length),
+                          rep(c(1,0,1), each = vector_length),
+                          rep(c(0,1,1), each = vector_length),
+                          rep(c(0,0,1), each = vector_length)),
+                      ncol= vector_length*3,
+                      byrow=TRUE)
+  
+  event_matrix <- event_pairs[event_frequencies,]
+  
+  if(shuffle==FALSE) {return(event_matrix)
+    }else{
+    return(event_matrix[sample(1:length(event_frequencies)),])
+    }
+  
+  }
+
+trials <- create_trials(6,24,6,24,10,shuffle=FALSE)
+```
+
+Next we run the model. This includes "presenting the trials" to model, which basically means copying the entire matrix to memory. For example, we are assuming that the memory has experienced all of the trials.
+
+Then, we "probe" the memor. This is the step where we will evaluate the models knowledge of the contingency between the cue and the outcome. NOTE: there are potentially multiple ways to evaluate the knowledge of the model, and we will explore different ways.
+
+In this example, we probe with cue only (1s in the first field, and 0s in the second field). Then we compute and generate the echo that is produced by memory. **The question is to evaluate the extent to which the cue causes retrieval of the outcome**. For example, when presented with the cue and no outcome, does the memory "expect" the outcome. If so, there should be some positive (non-zero) values in the outcome field.
+
+```{r}
+# run model
+
+# assume event pairs have been presented to memory
+memory <- trials
+
+#probe memory with cue only
+
+probe <- rep(c(1,0,1),each=10)
+similarities <- c()
+for(i in 1:dim(memory)[1]){
+  similarities[i] <- lsa::cosine(probe,memory[i,])
+}
+similarities[is.nan(similarities)]<-0
+
+# generate echo
+weighted_memory <- memory*(similarities^3)
+echo <- colSums(weighted_memory)
+
+print(echo)
+```
+
+
+The last 10 values are positive and no-zero indicating that the cue prompted some expectation for the outcome. The next issue is to measure the strength or amount of expectation, and to compare the expectations across different contingency structures. For example, in the above example, we used a non-contingent, low outcome density condition, where there is no statistical relationship between the cue and outcome.
+
+Let's put the above code into a functional form, so it is easier to run the model multiple times, with different contingency structures
+
+```{r}
+run_model <- function(trials,probe){
+  memory <- trials
+
+#probe memory with cue only
+
+  similarities <- c()
+  for(i in 1:dim(memory)[1]){
+    similarities[i] <- lsa::cosine(probe,memory[i,])
+  }
+  similarities[is.nan(similarities)]<-0
+  
+  # generate echo
+  weighted_memory <- memory*(similarities^3)
+  echo <- colSums(weighted_memory)
+  
+  return(echo)
+}
+```
+
+An example of running the model on different conditions
+
+```{r}
+# low outcome density ∆P = 0
+trials <- create_trials(6,24,6,24,10,shuffle=TRUE)
+run_model(trials=trials,probe = rep(c(1,0,1),each=10))
+
+# low outcome density ∆P = .467
+trials <- create_trials(17,13,3,27,10,shuffle=TRUE)
+run_model(trials=trials,probe = rep(c(1,0,1),each=10))
+
+# high outcome density ∆P = 0
+trials <- create_trials(24,6,24,6,10,shuffle=TRUE)
+run_model(trials=trials,probe = rep(c(1,0,1),each=10))
+
+# high outcome density ∆P = .467
+trials <- create_trials(27,3,13,17,10,shuffle=TRUE)
+run_model(trials=trials,probe = rep(c(1,0,1),each=10))
+```
+
+An example of saving and plotting model results.
+
+```{r}
+conditions <- list(list(outcome_density = .2,
+                        delta_p = 0,
+                        frequencies = c(6,24,6,24)),
+                   list(outcome_density = .8,
+                        delta_p = 0,
+                        frequencies = c(24,6,24,6)),
+                   list(outcome_density = .33,
+                        delta_p = .467,
+                        frequencies = c(17,13,3,27)),
+                   list(outcome_density = .67,
+                        delta_p = .467,
+                        frequencies = c(27,3,13,17))
+                   )
+
+model_data<-data.frame()
+for(i in 1:4){
+  trials <- create_trials(A=conditions[[i]]$frequencies[1],
+                          B=conditions[[i]]$frequencies[2],
+                          C=conditions[[i]]$frequencies[3],
+                          D=conditions[[i]]$frequencies[4],
+                          vector_length = 10,
+                          shuffle=TRUE)
+  model_output <- run_model(trials=trials,probe = rep(c(1,0,1),each=10))
+  sim_data <- data.frame(outcome_density = conditions[[i]]$outcome_density,
+                         delta_p = conditions[[i]]$delta_p,
+                         expectation = model_output[11])
+  model_data <- rbind(model_data,sim_data)
+}
+
+# print table
+
+knitr::kable(model_data)
+
+# plot
+library(ggplot2)
+
+ggplot(model_data,aes(x=outcome_density,
+                      y=expectation,
+                      group=delta_p,
+                      color=delta_p))+
+  geom_line()+
+  geom_point()
+```
+
+## Challenge
+
+Work through the code and make sure you understand what is going on. Make notes about parts you do not understand.
+
+1. Can you add to the code to model two additional contingency structures. Specifically, we already have low and high outcome density conditions for zero contingency and a medium positive (.467) contingency. What would happen for corresponding conditions that included negative contingency where the presence of the cue predicts the absence of the outcome. Create two negative contingency conditions for high and low outcome density, run the model on them, and then add them to the graph and table.
+
+
+```{r}
+feature_vector <- c(rep(1,10),rep(1,10))
+
+noise <- rbinom(n = 20,size = 1,prob = .2)
+
+feature_vector*noise
+```
+
+
+```{r}
+conditions <- list(list(outcome_density = .2,
+                        delta_p = 0,
+                        frequencies = c(6,24,6,24)),
+                   list(outcome_density = .8,
+                        delta_p = 0,
+                        frequencies = c(24,6,24,6)),
+                   list(outcome_density = .33,
+                        delta_p = .467,
+                        frequencies = c(17,13,3,27)),
+                   list(outcome_density = .67,
+                        delta_p = .467,
+                        frequencies = c(27,3,13,17)),
+                   list(outcome_density = .67,
+                        delta_p = -.467,
+                        frequencies = c(13,17,27,3)),
+                   list(outcome_density = .33,
+                        delta_p = -.467,
+                        frequencies = c(3,27,17,13))
+                   )
+
+model_data<-data.frame()
+for(i in 1:6){
+  trials <- create_trials(A=conditions[[i]]$frequencies[1],
+                          B=conditions[[i]]$frequencies[2],
+                          C=conditions[[i]]$frequencies[3],
+                          D=conditions[[i]]$frequencies[4],
+                          vector_length = 10,
+                          shuffle=TRUE)
+  model_output <- run_model(trials=trials,probe = rep(c(1,0,1),each=10))
+  sim_data <- data.frame(outcome_density = conditions[[i]]$outcome_density,
+                         delta_p = conditions[[i]]$delta_p,
+                         expectation = model_output[11])
+  model_data <- rbind(model_data,sim_data)
+}
+
+# print table
+
+knitr::kable(model_data)
+
+# plot
+library(ggplot2)
+
+ggplot(model_data,aes(x=outcome_density,
+                      y=expectation,
+                      group=delta_p,
+                      color=delta_p))+
+  geom_line()+
+  geom_point()
+```
+
+
+## Different learning Rates
+
+```{r}
+## Add learning rate to function
+
+run_model <- function(trials,probe,learning_rate){
+  
+  noise_matrix <- matrix(rbinom(n=length(trials),size=1, prob=learning_rate),
+                         nrow = dim(trials)[1],
+                         ncol = dim(trials)[2]
+  )
+
+  memory <- trials*noise_matrix
+  
+#probe memory with cue only
+
+  similarities <- c()
+  for(i in 1:dim(memory)[1]){
+    similarities[i] <- lsa::cosine(probe,memory[i,])
+  }
+  similarities[is.nan(similarities)]<-0
+  
+  # generate echo
+  weighted_memory <- memory*(similarities^3)
+  echo <- colSums(weighted_memory)
+  
+  return(echo)
+}
+
+## set up conditions for modeling
+
+conditions <- list(list(outcome_density = .2,
+                        delta_p = 0,
+                        frequencies = c(6,24,6,24)),
+                   list(outcome_density = .8,
+                        delta_p = 0,
+                        frequencies = c(24,6,24,6)),
+                   list(outcome_density = .33,
+                        delta_p = .467,
+                        frequencies = c(17,13,3,27)),
+                   list(outcome_density = .67,
+                        delta_p = .467,
+                        frequencies = c(27,3,13,17)),
+                   list(outcome_density = .67,
+                        delta_p = -.467,
+                        frequencies = c(13,17,27,3)),
+                   list(outcome_density = .33,
+                        delta_p = -.467,
+                        frequencies = c(3,27,17,13))
+                   )
+
+# run the model for .5
+
+meanExpect<-data.frame()
+
+for(j in 1:10){
+model_data<-data.frame()
+for(i in 1:6){
+  
+  trials <- create_trials(A=conditions[[i]]$frequencies[1],
+                          B=conditions[[i]]$frequencies[2],
+                          C=conditions[[i]]$frequencies[3],
+                          D=conditions[[i]]$frequencies[4],
+                          vector_length = 10,
+                          shuffle=TRUE)
+  model_output <- run_model(trials=trials,probe = rep(c(1,0,1),each=10), .5)
+  sim_data <- data.frame(outcome_density = conditions[[i]]$outcome_density,
+                         delta_p = conditions[[i]]$delta_p,
+                         expectation = model_output[11])
+  model_data <- rbind(model_data,sim_data)
+  
+ # meanExpect <- data.frame(types1=model_output[11])
+}
+ meanExpect <- rbind(meanExpect, model_data$expectation)
+
+}
+```
+
+```{r}
+for(i in 1:6){
+colnames(meanExpect)[i] <- i
+avg <- sum(meanExpect[,i])/10
+sim_data <- data.frame(outcome_density = conditions[[i]]$outcome_density,
+                         delta_p = conditions[[i]]$delta_p,
+                         expectation = avg)
+}
+# print table
+
+knitr::kable(model_data)
+
+# plot
+library(ggplot2)
+
+ggplot(model_data,aes(x=outcome_density,
+                      y=expectation,
+                      group=delta_p,
+                      color=delta_p))+
+  geom_line()+
+  geom_point()
+```
+
+```{r}
+# run the model for .1
+meanExpect<-data.frame()
+
+for(j in 1:10){
+model_data<-data.frame()
+for(i in 1:6){
+  
+  trials <- create_trials(A=conditions[[i]]$frequencies[1],
+                          B=conditions[[i]]$frequencies[2],
+                          C=conditions[[i]]$frequencies[3],
+                          D=conditions[[i]]$frequencies[4],
+                          vector_length = 10,
+                          shuffle=TRUE)
+  model_output <- run_model(trials=trials,probe = rep(c(1,0,1),each=10), .1)
+  sim_data <- data.frame(outcome_density = conditions[[i]]$outcome_density,
+                         delta_p = conditions[[i]]$delta_p,
+                         expectation = model_output[11])
+  model_data <- rbind(model_data,sim_data)
+  
+ # meanExpect <- data.frame(types1=model_output[11])
+}
+ meanExpect <- rbind(meanExpect, model_data$expectation)
+
+}
+```
+```{r}
+for(i in 1:6){
+colnames(meanExpect)[i] <- i
+avg <- sum(meanExpect[,i])/10
+sim_data <- data.frame(outcome_density = conditions[[i]]$outcome_density,
+                         delta_p = conditions[[i]]$delta_p,
+                         expectation = avg)
+}
+
+# print table
+
+knitr::kable(model_data)
+
+# plot
+library(ggplot2)
+
+ggplot(model_data,aes(x=outcome_density,
+                      y=expectation,
+                      group=delta_p,
+                      color=delta_p))+
+  geom_line()+
+  geom_point()
+```
+
+```{r}
+# run the model for .5 cue absent
+meanExpect<-data.frame()
+
+for(j in 1:10){
+model_data<-data.frame()
+for(i in 1:6){
+  
+  trials <- create_trials(A=conditions[[i]]$frequencies[1],
+                          B=conditions[[i]]$frequencies[2],
+                          C=conditions[[i]]$frequencies[3],
+                          D=conditions[[i]]$frequencies[4],
+                          vector_length = 10,
+                          shuffle=TRUE)
+  model_output <- run_model(trials=trials,probe = rep(c(0,0,1),each=10), .5)
+  sim_data <- data.frame(outcome_density = conditions[[i]]$outcome_density,
+                         delta_p = conditions[[i]]$delta_p,
+                         expectation = model_output[11])
+  model_data <- rbind(model_data,sim_data)
+  
+ # meanExpect <- data.frame(types1=model_output[11])
+}
+ meanExpect <- rbind(meanExpect, model_data$expectation)
+
+}
+```
+```{r}
+for(i in 1:6){
+colnames(meanExpect)[i] <- i
+avg <- sum(meanExpect[,i])/10
+sim_data <- data.frame(outcome_density = conditions[[i]]$outcome_density,
+                         delta_p = conditions[[i]]$delta_p,
+                         expectation = avg)
+}
+
+# print table
+
+knitr::kable(model_data)
+
+# plot
+library(ggplot2)
+
+ggplot(model_data,aes(x=outcome_density,
+                      y=expectation,
+                      group=delta_p,
+                      color=delta_p))+
+  geom_line()+
+  geom_point()
+```
+```{r}
+# run the model for .1 cue absent
+meanExpect<-data.frame()
+
+for(j in 1:10){
+model_data<-data.frame()
+for(i in 1:6){
+  
+  trials <- create_trials(A=conditions[[i]]$frequencies[1],
+                          B=conditions[[i]]$frequencies[2],
+                          C=conditions[[i]]$frequencies[3],
+                          D=conditions[[i]]$frequencies[4],
+                          vector_length = 10,
+                          shuffle=TRUE)
+  model_output <- run_model(trials=trials,probe = rep(c(0,0,1),each=10), .1)
+  sim_data <- data.frame(outcome_density = conditions[[i]]$outcome_density,
+                         delta_p = conditions[[i]]$delta_p,
+                         expectation = model_output[11])
+  model_data <- rbind(model_data,sim_data)
+  
+ # meanExpect <- data.frame(types1=model_output[11])
+}
+ meanExpect <- rbind(meanExpect, model_data$expectation)
+
+}
+```
+```{r}
+for(i in 1:6){
+colnames(meanExpect)[i] <- i
+avg <- sum(meanExpect[,i])/10
+sim_data <- data.frame(outcome_density = conditions[[i]]$outcome_density,
+                         delta_p = conditions[[i]]$delta_p,
+                         expectation = avg)
+}
+
+# print table
+
+knitr::kable(model_data)
+
+# plot
+library(ggplot2)
+
+ggplot(model_data,aes(x=outcome_density,
+                      y=expectation,
+                      group=delta_p,
+                      color=delta_p))+
+  geom_line()+
+  geom_point()
+```
+
+## New Challenges
+
+1. The above code shows how noise can be added to individual memory traces by adjusting a learning rate. The learning rate parameter goes from 0 to 1, with 0 meaning that no elements are copied to memory (all 0s), and 1 being that 100% of the elements are copied to memory. Our previous task was to generate three graphs, showing what happens with perfect encoding (L = 1), medium encoding (L= .5), and very noisy encoding (say L = .1). The problem is that when L is less than 1, the impact of the noise will change every simulation. **To solve the problem, we need to run the model multiple times for L = .5 and L = .1, and create graphs that show average model performance**.
+
+2. Our current representation scheme only codes for one cue and one outcome. **Add another field at the end of trace that codes for context**. We can simply make this a series of 10 ones.
+
+3. The current model probes memory with a cue present/outcome absent feature vector. This allows us to ask the model how much it expects the outcome to occur given that the cue was present. After solving #2 above, the next task is to ask the model the complementary question. This involves probing with a cue absent/outcome absent feature vector, to ask ho much the model expects the outcome given that the cue was not presented.
+
+We should then redo the model simulations, ask both questions of the model, save both of the results, as well as compute a contingency judgment, which would be a subtraction of the estimates, like in ∆P.
+
+
+
+
+```{r}
+## Add learning rate to function
+
+run_model <- function(trials,probe,learning_rate){
+  
+  noise_matrix <- matrix(rbinom(n=length(trials),size=1, prob=learning_rate),
+                         nrow = dim(trials)[1],
+                         ncol = dim(trials)[2]
+  )
+
+  memory <- trials*noise_matrix
+  
+#probe memory with cue only
+
+  similarities <- c()
+  for(i in 1:dim(memory)[1]){
+    similarities[i] <- lsa::cosine(probe,memory[i,])
+  }
+  similarities[is.nan(similarities)]<-0
+  
+  # generate echo
+  weighted_memory <- memory*(similarities^3)
+  echo <- colSums(weighted_memory)
+  
+  return(echo)
+}
+
+## set up conditions for modeling
+
+conditions <- list(list(outcome_density = .2,
+                        delta_p = 0,
+                        frequencies = c(6,24,6,24)),
+                   list(outcome_density = .8,
+                        delta_p = 0,
+                        frequencies = c(24,6,24,6)),
+                   list(outcome_density = .33,
+                        delta_p = .467,
+                        frequencies = c(17,13,3,27)),
+                   list(outcome_density = .67,
+                        delta_p = .467,
+                        frequencies = c(27,3,13,17)),
+                   list(outcome_density = .67,
+                        delta_p = -.467,
+                        frequencies = c(13,17,27,3)),
+                   list(outcome_density = .33,
+                        delta_p = -.467,
+                        frequencies = c(3,27,17,13))
+                   )
+
+# run the model for .5
+
+meanExpect_cue<-data.frame()
+
+for(j in 1:10){
+model_data<-data.frame()
+for(i in 1:6){
+  
+  trials <- create_trials(A=conditions[[i]]$frequencies[1],
+                          B=conditions[[i]]$frequencies[2],
+                          C=conditions[[i]]$frequencies[3],
+                          D=conditions[[i]]$frequencies[4],
+                          vector_length = 10,
+                          shuffle=TRUE)
+  model_output <- run_model(trials=trials,probe = rep(c(1,0,1),each=10), .95)
+  sim_data <- data.frame(outcome_density = conditions[[i]]$outcome_density,
+                         delta_p = conditions[[i]]$delta_p,
+                         expectation = model_output[11],
+                         simulation = j,
+                         cue_type = "cue present")
+  model_data <- rbind(model_data,sim_data)
+  
+ # meanExpect <- data.frame(types1=model_output[11])
+}
+ meanExpect_cue <- rbind(meanExpect_cue, model_data)
+
+}
+
+# no cue
+
+meanExpect_nocue<-data.frame()
+
+for(j in 1:10){
+model_data<-data.frame()
+for(i in 1:6){
+  
+  trials <- create_trials(A=conditions[[i]]$frequencies[1],
+                          B=conditions[[i]]$frequencies[2],
+                          C=conditions[[i]]$frequencies[3],
+                          D=conditions[[i]]$frequencies[4],
+                          vector_length = 10,
+                          shuffle=TRUE)
+  model_output <- run_model(trials=trials,probe = rep(c(0,0,1),each=10), .95)
+  sim_data <- data.frame(outcome_density = conditions[[i]]$outcome_density,
+                         delta_p = conditions[[i]]$delta_p,
+                         expectation = model_output[11],
+                         simulation = j,
+                         cue_type = "cue absent")
+  model_data <- rbind(model_data,sim_data)
+  
+ # meanExpect <- data.frame(types1=model_output[11])
+}
+ meanExpect_nocue <- rbind(meanExpect_nocue, model_data)
+
+}
+```
+
+```{r}
+library(dplyr)
+
+all_sim_data <- rbind(meanExpect_cue,meanExpect_nocue) 
+
+averages <- all_sim_data %>%
+  group_by(outcome_density,delta_p,cue_type) %>%
+  summarise(mean_expectation = mean(expectation))
+
+# plot
+library(ggplot2)
+
+ggplot(averages,aes(x=outcome_density,
+                      y=mean_expectation,
+                      group=delta_p,
+                      color=delta_p))+
+  geom_line()+
+  geom_point()+
+  facet_wrap(~cue_type)
+
+
+P_O_C <- averages %>%
+  filter(cue_type == "cue present") %>%
+  ungroup() %>%
+  select(mean_expectation)
+
+P_O_nC <- averages %>%
+  ungroup() %>%
+  filter(cue_type == "cue absent")%>%
+  select(mean_expectation)
+
+delta_p_table <- averages %>%
+  filter(cue_type == "cue absent") %>% 
+  ungroup() %>%
+  select(outcome_density,delta_p) %>%
+  mutate(memory_delta_p = (P_O_C$mean_expectation - P_O_nC$mean_expectation) -3)
+
+ggplot(delta_p_table, aes(x=outcome_density,
+                      y=memory_delta_p,
+                      group=delta_p,
+                      color=delta_p))+
+  geom_line()+
+  geom_point()
+
+```
+
+
+
+
