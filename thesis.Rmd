@@ -74,6 +74,8 @@ set.seed(42)
 knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
 ```
 
+# Introduction
+
 Imagine that you are driving down a highway going sixty miles per hour. All of the sudden traffic slows down and you see two police cars pass by. "I guess there was an accident", you think to yourself as you anticipate a longer commute than expected. You later pass the cars involved, and also arrive twenty minutes late to work. Why did you predict that a car crash had occurred? Why did you predict that you would have a longer commute time? These types of questions are asked by researchers when studying contingency judgements. A contingency judgement can be defined as one’s perception of whether a particular stimulus predicts a particular outcome. The purpose of studying human contingency judgements is to be able to gain a better understanding of the way that people learn about the causal relationships between events (Beckers, 2011).  
 
 In order to study this further, we created a model using RStudio. Our model attempts to create a simulated version of memory. Specifically, it focuses on evaluating the percentage of information remembered after cues and outcomes are first presented. The model is first presented a set amount of cues and outcomes, and its "memory" is then checked by "asking" the model to predict whether an outcome will occur given that a cue was presented or not. 
@@ -87,22 +89,26 @@ What psychological mechanisms are involved in making contingency judgements? Sev
 Several factors may influence whether or not one is able to make an accurate contingency judgement. First, there is a minimum amount of change necessary for one to tell whether something is different from before. For instance, if someone only changes the brightness on their phone by 1% would one be able to notice? There is also a minimum amount of stimulation required in order for someone to be aware that something is happening. Further, noise interference also plays a role. This is anything that distracts the participant in some way while they are trying to focus on the contingency task. Other thoughts, sounds, or objects in sight can create noise in one’s memory. 
 
 # Methods
-We report how we determined our sample size, all data exclusions (if any), all manipulations, and all measures in the study. <!-- 21-word solution (Simmons, Nelson & Simonsohn, 2012; retrieved from http://ssrn.com/abstract=2160588) -->
 
-## Participants
-
-## Material
-
-## Procedure
-
-## Data analysis
-We used `r cite_r("r-references.bib")` for all our analyses.
-
+We used RStudio to create a model of memory. The model we developed attempts to help us understand the way in which contingency judgements are made. Our model was presented with six different conditions. Three were high outcome density and three were low outcome density conditions. Low outcome density refers to a trial in which fewer outcomes were presented than cues. High outcome density refers to trials where more outcomes were presented than cues. Four types of trials can be presented to the model. The model can be presented with a cue and no outcome, no cue and no outcome,  a cue and an outcome, or no cue and an outcome. Our model was shown all four combinations. It was then asked to predict, based on all of the combinations that it had been presented with, whether an outcome would occur given that cues were presented first with no outcomes. The three types of streams presented were noncontingent, contingent, and negative contingent. Noncontingent refers to trials where cues and outcomes were presented randomly, with neither meant to predict the other. Contingent refers to when an outcome was predicted given a cue. Negative contingent refers to when an outcome was predicted despite no cue given. 
+The original experiment by Crump et al. involved a blue square being presented as the cue and a red circle being presented as the outcome. Our model presents cues and outcomes to the model as sets of 0s and 1s. 0 being not present, 1 being present.
 
 # Results
 
-# Discussion
+Did our MINERVA model produce a similar $\triangle$P effect and outcome density effect to those found in the Crump et al. (2007) study? While our model did produce the effects, it did so with regard to a higher expectation overall than that of the original study. While the original study contained negative expectations, the model only produced positive expectations, although the overall trend of the results was otherwise almost identical to the original study.     For both contingent and noncontingent streams of data,  contingency ratings were lower when less outcomes were presented. Just like the human participants in the original study, our computer model also had higher contingency ratings when more outcomes were presented than cues (high outcome density). In contingent conditions ($\triangle$P=.467), contingency ratings were much higher overall than noncontingent conditions ($\triangle$P=0), which, as intended, paralleled the results of the original study. 
 
+Were we able to simulate a theoretical negative contingency condition? A negative contingency condition ($\triangle$P=-.467) was not present in the original study. In this condition, the presence of a cue would predict the absence of an outcome. We presented the model with two negative contingency trials, one for both high and low outcome density. Our results show that, in theory, had this been the case in the original study, participants would have least expected the occurrence of an outcome under these conditions. In other words, when compared with the two other conditions, contingency ratings were much lower when the model was presented with a negative contingency. This was true for both the high and low outcome density trials.  
+    
+# Discussion    
+
+The purposes of this experiment were to create a simulated version of the Crump et al. (2007) study and additionally to experiment with new theoretical conditions within the simulation. In general, our model was able to replicate several attributes of the in-person study, such as the $\triangle$P conditions and the outcome densities associated with them, as well as the overall trend of the data.
+
+Our model contains several key differences when compared with the original study done by Crump et al. (2007). First, presenting the four possible scenarios to the cue and then asking the model to predict what will happen for each of the six conditions yielded results that were similar to those provided by humans. However, the results provided by humans were lower in expectation than those of the model, although similar in range. Scaling error may account for these differences. Another difference between our model and that of the original study is the number of conditions. We included two additional negative contingency conditions in order to evaluate what would theoretically occur had participants predicted the absence of an outcome despite the presence of a cue.
+
+By studying contingency judgements, we can gain a better understanding of factors that influence learning, memory, and eventually decision making. Our results indicate that there is a relationship between the number of times a result is shown, and one’s prediction of whether or not they will get that an outcome will occur based on a certain cue. This general principle may have implications in the world of mental health, such as with disorders such as anxiety and depression. For instance, it could be the case that one develops depressive symptoms due in part to what they expect to happen (outcomes), based on previous experiences (cues). Of course, it would require a substantial amount of further research to properly examine how previous experiences shape mental disorders.
+
+
+$x=1$
 
 \newpage
 
