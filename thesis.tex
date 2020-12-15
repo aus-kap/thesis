@@ -37,14 +37,14 @@
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
 \hypersetup{
-  pdftitle={The title},
-  pdfauthor={First Author1 \& Ernst-August Doelle1,2},
+  pdftitle={Contingency Judgements},
+  pdfauthor={Austin Kaplan1 \& Ernst-August Doelle1,2},
   pdflang={en-EN},
   pdfkeywords={keywords},
   hidelinks,
   pdfcreator={LaTeX via pandoc}}
 \urlstyle{same} % disable monospaced font for URLs
-\usepackage{graphicx}
+\usepackage{graphicx,grffile}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
 \def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
@@ -124,15 +124,9 @@
 \else
   \usepackage[shorthands=off,main=english]{babel}
 \fi
-\newlength{\cslhangindent}
-\setlength{\cslhangindent}{1.5em}
-\newenvironment{cslreferences}%
-  {\setlength{\parindent}{0pt}%
-  \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces}%
-  {\par}
 
-\title{The title}
-\author{First Author\textsuperscript{1} \& Ernst-August Doelle\textsuperscript{1,2}}
+\title{Contingency Judgements}
+\author{Austin Kaplan\textsuperscript{1} \& Ernst-August Doelle\textsuperscript{1,2}}
 \date{}
 
 
@@ -142,28 +136,16 @@ Add complete departmental affiliations for each author here. Each new line herei
 
 Enter author note here.
 
-The authors made the following contributions. First Author: Conceptualization, Writing - Original Draft Preparation, Writing - Review \& Editing; Ernst-August Doelle: Writing - Review \& Editing.
+The authors made the following contributions. Austin Kaplan: Conceptualization, Writing - Original Draft Preparation, Writing - Review \& Editing; Ernst-August Doelle: Writing - Review \& Editing.
 
-Correspondence concerning this article should be addressed to First Author, Postal address. E-mail: \href{mailto:my@email.com}{\nolinkurl{my@email.com}}
+Correspondence concerning this article should be addressed to Austin Kaplan, Postal address. E-mail: \href{mailto:my@email.com}{\nolinkurl{my@email.com}}
 
 }
 
-\affiliation{\vspace{0.5cm}\textsuperscript{1} Wilhelm-Wundt-University\\\textsuperscript{2} Konstanz Business School}
+\affiliation{\vspace{0.5cm}\textsuperscript{1} Brooklyn College}
 
 \abstract{
-One or two sentences providing a \textbf{basic introduction} to the field, comprehensible to a scientist in any discipline.
-
-Two to three sentences of \textbf{more detailed background}, comprehensible to scientists in related disciplines.
-
-One sentence clearly stating the \textbf{general problem} being addressed by this particular study.
-
-One sentence summarizing the main result (with the words ``\textbf{here we show}'' or their equivalent).
-
-Two or three sentences explaining what the \textbf{main result} reveals in direct comparison to what was thought to be the case previously, or how the main result adds to previous knowledge.
-
-One or two sentences to put the results into a more \textbf{general context}.
-
-Two or three sentences to provide a \textbf{broader perspective}, readily comprehensible to a scientist in any discipline.
+The purposes of this experiment were to create a simulated version of the Crump et al.~(2007) study and additionally to experiment with new theoretical conditions within the simulation. In general, our model was able to replicate several attributes of the in-person study, such as the \(\triangle\)P conditions and the outcome densities associated with them, as well as the overall trend of the data. We created a model using RStudio, based on MINERVA 2, which is a simulation model of episodic memory. MINERVA 2 assumes that each experience leaves an individual memory trace (Hintzman, 1986). Our model was presented with six different conditions. Three were high outcome density and three were low outcome density conditions. Low outcome density refers to a trial in which fewer outcomes were presented than cues. High outcome density refers to trials where more outcomes were presented than cues. Four types of trials can be presented to the model. The model can be presented with a cue and no outcome, no cue and no outcome, a cue and an outcome, or no cue and an outcome. Our model was shown all four combinations. It was then asked to predict, based on all of the combinations that it had been presented with, whether an outcome would occur given that cues were presented first with no outcomes. We hypothesized that Just like the human participants in the original study, our computer model also had higher contingency ratings when more outcomes were presented than cues (high outcome density). In contingent conditions (\(\triangle\)P=.467), contingency ratings were much higher overall than noncontingent conditions (\(\triangle\)P=0), which, as intended, paralleled the original results. However, it did so with regard to a higher expectation overall than that of the original study. We also presented the model with a negative contingency condition (\(\triangle\)P=-.467) that was not present in the original study. Our results show that, in theory, had this been the case in the original study, participants would have least expected the occurrence of an outcome under these conditions.
 }
 
 
@@ -174,23 +156,18 @@ Two or three sentences to provide a \textbf{broader perspective}, readily compre
 \hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
 
-Imagine that you are driving down a highway going sixty miles per hour. All of the sudden traffic slows down and you see two police cars pass by. ``I guess there was an accident'', you think to yourself as you anticipate a longer commute than expected. You later pass the cars involved, and also arrive twenty minutes late to work. Why did you predict that a car crash had occurred? Why did you predict that you would have a longer commute time? These types of questions are asked by researchers when studying contingency judgements. A contingency judgement can be defined as one's perception of whether a particular stimulus predicts a particular outcome. The purpose of studying human contingency judgements is to be able to gain a better understanding of the way that people learn about the causal relationships between events (Beckers, 2011).
-
-In order to study this further, we created a model using RStudio. Our model attempts to create a simulated version of memory. Specifically, it focuses on evaluating the percentage of information remembered after cues and outcomes are first presented. The model is first presented a set amount of cues and outcomes, and its ``memory'' is then checked by ``asking'' the model to predict whether an outcome will occur given that a cue was presented or not.
-
-Our model is based on the MINERVA 2 framework. MINERVA is founded on the idea that each experience leaves an individual memory trace (Hintzman, 1986). In other words, repeated exposure to the same information creates multiple copies rather than strengthening the same memory. This is called multiple-trace theory. While this theory is assumed for the purposes of this study, many other models attempt to explain how contingency judgments are formed.
-
-Our experiment is based on a research study performed by Crump, Hannah, Allan, and Hord (2007). While this study involved presenting humans with a contingency task, our computer model attempts to replicate the findings of the study, and expand upon it. The findings of the original study explain that people are generally normative. In other words, people generally act in an expected way when making contingency judgements, and this is referred to as the \(\triangle\) P rule (Allan, 1993). For instance, if someone changes the brightness of their phone screen and it becomes brighter, a person will likely be able to tell that an increase occurred rather than a decrease, or no change. This would be expected, or normative, behavior. By the same token, human beings are not robots, and each person has their own biases. These biases result in a departure from expectations during research. This phenomenon is explained by the outcome density effect. This states that when more outcomes occur, they lead participants to more strongly predict that there is a contingency occurring in order to create the outcomes, even if there is not necessarily a true contingency between events. For instance, if someone is shown a circle followed by a square 95\% of the time, they are more likely to predict that the circle indicates that a square will be presented later, even if the order was randomly generated and no connection between the two cues was intended.
-
-What psychological mechanisms are involved in making contingency judgements? Several theories can be used to explain the way in which contingency judgements work. One of these is called rule-based theory. This theory looks at people or even animals as intuitive statisticians who extract contingency information by applying formulas (Allan, 1993). In other words, animals and humans act as ``calculators'' unwittingly. Another theory is associative theory, which looks at contingency learning as a result of Pavolvian associations formed between all previously presented events (Allan, 1993). This is based on the Rescorla-Wagner model of learning, which explains that learning diminishes as the conditioned stimulus becomes more familiar. This makes the case that contingencies are learned through the repeated presentation of stimuli. For instance, in Crump et al.~(2007), when a red circle is presented after a blue square, participants learn to associate the circle with the square and form a judgement that the circle is contingent upon the prior presentation of the square. Signal detection theory deals with measuring one's ability to differentiate between actual information and random patterns that distract from it. Based on this theory, contingency judgements are formed based on how well one is able to separate noise (random pairings) from actual contingencies.
-
-Several factors may influence whether or not one is able to make an accurate contingency judgement. First, there is a minimum amount of change necessary for one to tell whether something is different from before. For instance, if someone only changes the brightness on their phone by 1\% would one be able to notice? There is also a minimum amount of stimulation required in order for someone to be aware that something is happening. Further, noise interference also plays a role. This is anything that distracts the participant in some way while they are trying to focus on the contingency task. Other thoughts, sounds, or objects in sight can create noise in one's memory.
+Imagine that you are driving down a highway going sixty miles per hour. All of the sudden traffic slows down and you see two police cars pass by. \enquote{I guess there was an accident}, you think to yourself as you anticipate a longer commute than expected. You later pass the cars involved, and also arrive twenty minutes late to work. Why did you predict that a car crash had occurred? Why did you predict that you would have a longer commute time? These types of questions are asked by researchers when studying contingency judgements. A contingency judgement can be defined as one's perception of whether a particular stimulus predicts a particular outcome. The purpose of studying human contingency judgements is to be able to gain a better understanding of the way that people learn about the causal relationships between events (Beckers, 2011).
+In order to study this further, we created a model using RStudio. The model attempts to help us understand the way in which contingency judgements are made. Our model is based on MINERVA 2, which is a simulation model of episodic memory. Specifically, MINERVA 2 assumes that each experience leaves an individual memory trace (Hintzman, 1986). Our model focuses on evaluating the percentage of information remembered after cues and outcomes are first presented. The model is first presented a set amount of cues and outcomes, and its \enquote{memory} is then checked by \enquote{asking} the model to predict whether an outcome will occur given that a cue was presented or not.
+Our experiment is based on a research study performed by Crump et al.~(2007). While this study involved presenting humans with a contingency task, our computer model attempts to replicate the findings of the study, and expand upon it. The findings of the original study explain that people are generally normative. In other words, people generally act in an expected way when making contingency judgements, and this is referred to as the \(\triangle\)P rule (Allan, 1993). For instance, if someone changes the brightness of their phone screen and it becomes brighter, a person will likely be able to tell that an increase occurred rather than a decrease, or no change. This would be expected, or normative, behavior. By the same token, human beings are not robots, and each person has their own biases. For instance, one may rate contingency as significantly higher or lower than actuality. These biases result in a departure from expectations during research. This phenomenon is explained by the outcome density effect. This states that when more outcomes occur, they lead participants to more strongly predict that there is a contingency occurring in order to create the outcomes, even if there is not necessarily a true contingency between events. For instance, if someone is shown a circle followed by a square 95 of the time, they are more likely to predict that the circle indicates that a square will be presented later, even if the order was randomly generated and no connection between the two cues was intended.
+What psychological mechanisms are involved in making contingency judgements? Several theories can be used to explain the way in which contingency judgements work. MINERVA 2 assumes that repeated exposure to the same information creates multiple copies rather than strengthening the same memory. This is called multiple-trace theory. While this theory is assumed for the purposes of this study, many other models attempt to explain how contingency judgments are formed. One of these is called rule-based theory. This theory looks at people or even animals as intuitive statisticians who extract contingency information by applying formulas (Allan, 1993). In other words, animals and humans act as \enquote{calculators} unwittingly. For instance, Another theory is associative theory, which looks at contingency learning as a result of Pavolvian associations formed between all previously presented events (Allan, 1993). This is based on the Rescorla-Wagner model of learning, which explains that learning diminishes as the conditioned stimulus becomes more familiar. This makes the case that contingencies are learned through the repeated presentation of stimuli. For instance, in Crump et al.~(2007), when a red circle is presented after a blue square, participants learn to associate the circle with the square and form a judgement that the circle is contingent upon the prior presentation of the square. Signal detection theory deals with measuring one's ability to differentiate between actual information and random patterns that distract from it. Based on this theory, contingency judgements are formed based on how well one is able to separate noise (random pairings) from actual contingencies.
+Several factors may influence whether or not one is able to make an accurate contingency judgement. First, there is a minimum amount of change necessary for one to tell whether something is different from before. For instance, if someone only changes the brightness on their phone by 1\% would one be able to notice? There is also a minimum amount of stimulation required in order for someone to be aware that something is happening. For instance, if a significant amount of time is elapsed between two events, one may be less likely to predict that one event caused the other to occur. For instance, if you eat spoiled food but do not get sick until three weeks later, you may be less likely to predict that the food caused the illness than if you got sick the next day. Further, noise interference also plays a role. This is anything that distracts the participant in some way while they are trying to focus on the contingency task. Other thoughts, sounds, or objects in sight can create noise in one's memory. These factors can take away from or add to a participant's memory of the task. Noise may reduce contingency judgement accuracy.
 
 \hypertarget{methods}{%
 \section{Methods}\label{methods}}
 
-We used RStudio to create a model of memory. The model we developed attempts to help us understand the way in which contingency judgements are made. Our model was presented with six different conditions. Three were high outcome density and three were low outcome density conditions. Low outcome density refers to a trial in which fewer outcomes were presented than cues. High outcome density refers to trials where more outcomes were presented than cues. Four types of trials can be presented to the model. The model can be presented with a cue and no outcome, no cue and no outcome, a cue and an outcome, or no cue and an outcome. Our model was shown all four combinations. It was then asked to predict, based on all of the combinations that it had been presented with, whether an outcome would occur given that cues were presented first with no outcomes. The three types of streams presented were noncontingent, contingent, and negative contingent. Noncontingent refers to trials where cues and outcomes were presented randomly, with neither meant to predict the other. Contingent refers to when an outcome was predicted given a cue. Negative contingent refers to when an outcome was predicted despite no cue given.
-The original experiment by Crump et al.~involved a blue square being presented as the cue and a red circle being presented as the outcome. Our model presents cues and outcomes to the model as sets of 0s and 1s. 0 being not present, 1 being present.
+We used RStudio to create a model of memory. Our model was presented with six different conditions. Three were high outcome density and three were low outcome density conditions. Low outcome density refers to a trial in which fewer outcomes were presented than cues. High outcome density refers to trials where more outcomes were presented than cues. Four types of trials can be presented to the model. The model can be presented with a cue and no outcome, no cue and no outcome, a cue and an outcome, or no cue and an outcome. Our model was shown all four combinations. It was then asked to predict, based on all of the combinations that it had been presented with, whether an outcome would occur given that cues were presented first with no outcomes. The three types of streams presented were noncontingent, contingent, and negative contingent. Noncontingent refers to trials where cues and outcomes were presented randomly, with neither meant to predict the other. Contingent refers to when an outcome was predicted given a cue. Negative contingent refers to when an outcome was predicted despite no cue given.
+MINERVA 2 is a multiple-trace model as it assumes that each experience leaves an individual memory trace (Hintzman,1986). In other words, repeated exposure to the same information creates multiple copies rather than strengthening the same memory. MINERVA 2 is mostly focused on long-term memory. However, there is assumed to be a temporary buffer (short-term memory) that relays information to long-term memory (Hintzman, 1988).
+The original experiment by Crump et al.~involved a blue square being presented as the cue and a red circle being presented as the outcome. Our model presents cues and outcomes to the model as sets of 0s and 1s. 0 being not present, 1 being present. Specifically, in our simulation, the model was shown 0s and 1s as representations of cues and outcomes, respectively. If a cue was presented first, it may have either been followed by an outcome (1), or no outcome (0). If no cue was presented first (0), it was either followed by no outcome, or an outcome. In theory, the more cues and outcomes presented, the more accurate the model should be at predicting which number will be presented next.
 
 \hypertarget{simulation-1}{%
 \section{Simulation 1}\label{simulation-1}}
@@ -229,10 +206,6 @@ By studying contingency judgements, we can gain a better understanding of factor
 \setlength{\leftskip}{0.5in}
 
 \hypertarget{refs}{}
-\begin{cslreferences}
-\leavevmode\hypertarget{ref-crumpContingencyJudgementsFly2007}{}%
-Crump, M. J. C., Hannah, S. D., Allan, L. G., \& Hord, L. K. (2007). Contingency judgements on the fly. \emph{The Quarterly Journal of Experimental Psychology}, \emph{60}(6), 753--761. \url{https://doi.org/10/b9jjc4}
-\end{cslreferences}
 
 \endgroup
 
