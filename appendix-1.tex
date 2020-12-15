@@ -1,0 +1,109 @@
+\clearpage
+\makeatletter
+\efloat@restorefloats
+\makeatother
+
+
+\begin{appendix}
+\hypertarget{appendix-1}{%
+\section{Appendix 1}\label{appendix-1}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\#\# Model code for simulation 1}
+
+\DocumentationTok{\#\# create contingency task trials}
+
+\NormalTok{create\_trials }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(A, B, C, D, vector\_length, }\AttributeTok{shuffle=}\ConstantTok{FALSE}\NormalTok{)\{}
+  
+\NormalTok{  event\_frequencies }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{4}\NormalTok{), }\AttributeTok{times =} \FunctionTok{c}\NormalTok{(A,B,C,D))}
+  
+\NormalTok{  event\_pairs }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\FunctionTok{rep}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{), }\AttributeTok{each =}\NormalTok{ vector\_length),}
+                          \FunctionTok{rep}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{), }\AttributeTok{each =}\NormalTok{ vector\_length),}
+                          \FunctionTok{rep}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{), }\AttributeTok{each =}\NormalTok{ vector\_length),}
+                          \FunctionTok{rep}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{), }\AttributeTok{each =}\NormalTok{ vector\_length)),}
+                      \AttributeTok{ncol=}\NormalTok{ vector\_length}\SpecialCharTok{*}\DecValTok{3}\NormalTok{,}
+                      \AttributeTok{byrow=}\ConstantTok{TRUE}\NormalTok{)}
+  
+\NormalTok{  event\_matrix }\OtherTok{\textless{}{-}}\NormalTok{ event\_pairs[event\_frequencies,]}
+  
+  \ControlFlowTok{if}\NormalTok{(shuffle}\SpecialCharTok{==}\ConstantTok{FALSE}\NormalTok{) \{}\FunctionTok{return}\NormalTok{(event\_matrix)}
+\NormalTok{    \}}\ControlFlowTok{else}\NormalTok{\{}
+    \FunctionTok{return}\NormalTok{(event\_matrix[}\FunctionTok{sample}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(event\_frequencies)),])}
+\NormalTok{    \}}
+  
+\NormalTok{\}}
+
+\DocumentationTok{\#\# Run the model function}
+
+\NormalTok{run\_model }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(trials,probe)\{}
+\NormalTok{  memory }\OtherTok{\textless{}{-}}\NormalTok{ trials}
+
+\CommentTok{\#probe memory with cue only}
+
+\NormalTok{  similarities }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{()}
+  \ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{dim}\NormalTok{(memory)[}\DecValTok{1}\NormalTok{])\{}
+\NormalTok{    similarities[i] }\OtherTok{\textless{}{-}}\NormalTok{ lsa}\SpecialCharTok{::}\FunctionTok{cosine}\NormalTok{(probe,memory[i,])}
+\NormalTok{  \}}
+\NormalTok{  similarities[}\FunctionTok{is.nan}\NormalTok{(similarities)]}\OtherTok{\textless{}{-}}\DecValTok{0}
+  
+  \CommentTok{\# generate echo}
+\NormalTok{  weighted\_memory }\OtherTok{\textless{}{-}}\NormalTok{ memory}\SpecialCharTok{*}\NormalTok{(similarities}\SpecialCharTok{\^{}}\DecValTok{3}\NormalTok{)}
+\NormalTok{  echo }\OtherTok{\textless{}{-}} \FunctionTok{colSums}\NormalTok{(weighted\_memory)}
+  
+  \FunctionTok{return}\NormalTok{(echo)}
+\NormalTok{\}}
+
+\DocumentationTok{\#\#\# DEFINE conditions}
+
+\NormalTok{conditions }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(}\FunctionTok{list}\NormalTok{(}\AttributeTok{outcome\_density =}\NormalTok{ .}\DecValTok{2}\NormalTok{,}
+                        \AttributeTok{delta\_p =} \DecValTok{0}\NormalTok{,}
+                        \AttributeTok{frequencies =} \FunctionTok{c}\NormalTok{(}\DecValTok{6}\NormalTok{,}\DecValTok{24}\NormalTok{,}\DecValTok{6}\NormalTok{,}\DecValTok{24}\NormalTok{)),}
+                   \FunctionTok{list}\NormalTok{(}\AttributeTok{outcome\_density =}\NormalTok{ .}\DecValTok{8}\NormalTok{,}
+                        \AttributeTok{delta\_p =} \DecValTok{0}\NormalTok{,}
+                        \AttributeTok{frequencies =} \FunctionTok{c}\NormalTok{(}\DecValTok{24}\NormalTok{,}\DecValTok{6}\NormalTok{,}\DecValTok{24}\NormalTok{,}\DecValTok{6}\NormalTok{)),}
+                   \FunctionTok{list}\NormalTok{(}\AttributeTok{outcome\_density =}\NormalTok{ .}\DecValTok{33}\NormalTok{,}
+                        \AttributeTok{delta\_p =}\NormalTok{ .}\DecValTok{467}\NormalTok{,}
+                        \AttributeTok{frequencies =} \FunctionTok{c}\NormalTok{(}\DecValTok{17}\NormalTok{,}\DecValTok{13}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{27}\NormalTok{)),}
+                   \FunctionTok{list}\NormalTok{(}\AttributeTok{outcome\_density =}\NormalTok{ .}\DecValTok{67}\NormalTok{,}
+                        \AttributeTok{delta\_p =}\NormalTok{ .}\DecValTok{467}\NormalTok{,}
+                        \AttributeTok{frequencies =} \FunctionTok{c}\NormalTok{(}\DecValTok{27}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{13}\NormalTok{,}\DecValTok{17}\NormalTok{))}
+\NormalTok{                   )}
+
+\NormalTok{model\_data}\OtherTok{\textless{}{-}}\FunctionTok{data.frame}\NormalTok{() }\CommentTok{\#initialize data frame}
+
+\DocumentationTok{\#\# Run the model across conditions}
+
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{)\{}
+\NormalTok{  trials }\OtherTok{\textless{}{-}} \FunctionTok{create\_trials}\NormalTok{(}\AttributeTok{A=}\NormalTok{conditions[[i]]}\SpecialCharTok{$}\NormalTok{frequencies[}\DecValTok{1}\NormalTok{],}
+                          \AttributeTok{B=}\NormalTok{conditions[[i]]}\SpecialCharTok{$}\NormalTok{frequencies[}\DecValTok{2}\NormalTok{],}
+                          \AttributeTok{C=}\NormalTok{conditions[[i]]}\SpecialCharTok{$}\NormalTok{frequencies[}\DecValTok{3}\NormalTok{],}
+                          \AttributeTok{D=}\NormalTok{conditions[[i]]}\SpecialCharTok{$}\NormalTok{frequencies[}\DecValTok{4}\NormalTok{],}
+                          \AttributeTok{vector\_length =} \DecValTok{10}\NormalTok{,}
+                          \AttributeTok{shuffle=}\ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{  model\_output }\OtherTok{\textless{}{-}} \FunctionTok{run\_model}\NormalTok{(}\AttributeTok{trials=}\NormalTok{trials,}\AttributeTok{probe =} \FunctionTok{rep}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{),}\AttributeTok{each=}\DecValTok{10}\NormalTok{))}
+\NormalTok{  sim\_data }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{outcome\_density =}\NormalTok{ conditions[[i]]}\SpecialCharTok{$}\NormalTok{outcome\_density,}
+                         \AttributeTok{delta\_p =}\NormalTok{ conditions[[i]]}\SpecialCharTok{$}\NormalTok{delta\_p,}
+                         \AttributeTok{expectation =}\NormalTok{ model\_output[}\DecValTok{11}\NormalTok{])}
+\NormalTok{  model\_data }\OtherTok{\textless{}{-}} \FunctionTok{rbind}\NormalTok{(model\_data,sim\_data)}
+\NormalTok{\}}
+
+\CommentTok{\# print table}
+\CommentTok{\#knitr::kable(model\_data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# plot}
+\FunctionTok{library}\NormalTok{(ggplot2)}
+
+\FunctionTok{ggplot}\NormalTok{(model\_data,}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{outcome\_density,}
+                      \AttributeTok{y=}\NormalTok{expectation,}
+                      \AttributeTok{group=}\NormalTok{delta\_p,}
+                      \AttributeTok{color=}\NormalTok{delta\_p))}\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{()}\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+\end{appendix}
