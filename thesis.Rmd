@@ -12,10 +12,7 @@ author:
       - Conceptualization
       - Writing - Original Draft Preparation
       - Writing - Review & Editing
-  - name          : "Ernst-August Doelle"
-    affiliation   : "1,2"
-    role:
-      - Writing - Review & Editing
+
 
 affiliation:
   - id            : "1"
