@@ -1,0 +1,252 @@
+---
+title             : "Explaining contingency judgements with a computational model of instance-based memory"
+shorttitle        : "Memory and contingency judgments"
+
+author: 
+  - name          : "Austin Kaplan"
+    affiliation   : "1"
+    corresponding : yes    # Define only one corresponding author
+    address       : "2900 Bedford Avenue"
+    email         : "aus10kap@aol.com"
+
+affiliation:
+  - id            : "1"
+    institution   : "Brooklyn College"
+
+authornote: |
+  Brooklyn College of Psychology, submitted for PSYC 5001 (Dr. Matthew Crump) as part of a two-semester honors thesis. This paper will be integrated into the final honors thesis to be submitted for PSYC 5002.
+
+abstract: |
+  The purposes of this experiment were to create a simulated version of the @crumpContingencyJudgementsFly2007 study and additionally to experiment with new theoretical conditions within the simulation. Our model replicated several key findings, such as the effects of $\triangle$P and outcome density. We created a model using RStudio, based on MINERVA 2, which is a simulation model of episodic memory [@hintzmanSchemaAbstractionMultipletrace1986]. MINERVA 2 assumes that each experience leaves an individual memory trace.  Our model was presented with six different conditions. Three were high outcome density and three were low outcome density conditions. Low outcome density refers to a trial in which fewer outcomes were presented than cues. High outcome density refers to trials where more outcomes were presented than cues. Four types of trials can be presented to the model. The model can be presented with a cue and no outcome, no cue and no outcome,  a cue and an outcome, or no cue and an outcome. Our model was shown all four combinations. It was then asked to predict, based on all of the combinations that it had been presented with, whether an outcome would occur given that cues were presented first with no outcomes. We hypothesized that Just like the human participants in the original study, our computer model also had higher contingency ratings when more outcomes were presented than cues (high outcome density). In contingent conditions ($\triangle$P=.467), contingency ratings were much higher overall than noncontingent conditions ($\triangle$P=0), which, as intended, paralleled the original results. However, it did so with regard to a higher expectation overall than that of the original study. We also presented the model with a negative contingency condition ($\triangle$P=-.467) that was not present in the original study. Our results show that, in theory, had this been the case in the original study, participants would have least expected the occurrence of an outcome under these conditions.
+
+  <!-- https://tinyurl.com/ybremelq -->
+  
+keywords          : "memory, contingency judgments, MINERVA II, instance theory"
+wordcount         : "2180"
+
+bibliography      : ["r-references.bib"]
+
+floatsintext      : yes
+figurelist        : no
+tablelist         : no
+footnotelist      : no
+linenumbers       : yes
+mask              : no
+draft             : no
+
+documentclass     : "apa6"
+classoption       : "man"
+output            : papaja::apa6_pdf
+---
+
+```{r setup, include = FALSE}
+library("papaja")
+r_refs("r-references.bib")
+```
+
+```{r analysis-preferences}
+# Seed for random number generation
+set.seed(42)
+knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
+```
+
+# Introduction
+
+Imagine that you are driving down a highway going sixty miles per hour. All of the sudden traffic slows down and you see two police cars pass by. "I guess there was an accident", you think to yourself as you anticipate a longer commute than expected. You later pass the cars involved, and also arrive twenty minutes late to work. Why did you predict that a car crash had occurred? Why did you predict that you would have a longer commute time? These types of questions are asked by researchers when studying contingency judgements. A contingency judgement can be defined as one's perception of whether a particular stimulus predicts a particular outcome. The purpose of studying human contingency judgements is to be able to gain a better understanding of the way that people learn about the causal relationships between events (Beckers, 2011).
+
+In order to study this further, we created a model using RStudio. The model attempts to help us understand the way in which contingency judgements are made. Our model is based on MINERVA 2, which is a simulation model of episodic memory. Specifically, MINERVA 2 assumes that each experience leaves an individual memory trace (Hintzman, 1986). Our model focuses on evaluating the percentage of information remembered after cues and outcomes are first presented. The model is first presented a set amount of cues and outcomes, and its "memory" is then checked by "asking" the model to predict whether an outcome will occur given that a cue was presented or not.
+
+Our experiment is based on a research study performed by @crumpContingencyJudgementsFly2007. While this study involved presenting humans with a contingency task, our computer model attempts to replicate the findings of the study, and expand upon it. The findings of the original study explain that people are generally normative. In other words, people generally act in an expected way when making contingency judgements, and this is referred to as the $\triangle$P rule [@allanHumanContingencyJudgments1993]. For instance, if someone changes the brightness of their phone screen and it becomes brighter, a person will likely be able to tell that an increase occurred rather than a decrease, or no change. This would be expected, or normative, behavior. By the same token, human beings are not robots, and each person has their own biases. For instance, one may rate contingency as significantly higher or lower than actuality. These biases result in a departure from expectations during research. This phenomenon is explained by the outcome density effect. This states that when more outcomes occur, they lead participants to more strongly predict that there is a contingency occurring in order to create the outcomes, even if there is not necessarily a true contingency between events. For instance, if someone is shown a circle followed by a square 95 of the time, they are more likely to predict that the circle indicates that a square will be presented later, even if the order was randomly generated and no connection between the two cues was intended. What psychological mechanisms are involved in making contingency judgements? Several theories can be used to explain the way in which contingency judgements work. MINERVA 2 assumes that repeated exposure to the same information creates multiple copies rather than strengthening the same memory. This is called multiple-trace theory. While this theory is assumed for the purposes of this study, many other models attempt to explain how contingency judgments are formed. One of these is called rule-based theory. This theory looks at people or even animals as intuitive statisticians who extract contingency information by applying formulas (Allan, 1993). In other words, animals and humans act as "calculators" unwittingly. For instance, Another theory is associative theory, which looks at contingency learning as a result of Pavolvian associations formed between all previously presented events (Allan, 1993). This is based on the Rescorla-Wagner model of learning, which explains that learning diminishes as the conditioned stimulus becomes more familiar. This makes the case that contingencies are learned through the repeated presentation of stimuli. For instance, in @crumpContingencyJudgementsFly2007, when a red circle is presented after a blue square, participants learn to associate the circle with the square and form a judgement that the circle is contingent upon the prior presentation of the square. Signal detection theory deals with measuring one's ability to differentiate between actual information and random patterns that distract from it. Based on this theory, contingency judgements are formed based on how well one is able to separate noise (random pairings) from actual contingencies. Several factors may influence whether or not one is able to make an accurate contingency judgement. First, there is a minimum amount of change necessary for one to tell whether something is different from before. For instance, if someone only changes the brightness on their phone by 1% would one be able to notice? There is also a minimum amount of stimulation required in order for someone to be aware that something is happening. For instance, if a significant amount of time is elapsed between two events, one may be less likely to predict that one event caused the other to occur. For instance, if you eat spoiled food but do not get sick until three weeks later, you may be less likely to predict that the food caused the illness than if you got sick the next day. Further, noise interference also plays a role. This is anything that distracts the participant in some way while they are trying to focus on the contingency task. Other thoughts, sounds, or objects in sight can create noise in one's memory. These factors can take away from or add to a participant's memory of the task. Noise may reduce contingency judgement accuracy.
+
+## MINERVA II
+
+MINERVA II is a computational instance theory of human memory [@hintzmanMINERVASimulationModel1984; @hintzmanJudgmentsFrequencyRecognition1988; @hintzmanSchemaAbstractionMultipletrace1986]. It is conceptually similar to other global-similarity models of memory [@murdockTODAM2ModelStorage1993, @eichCompositeHolographicAssociative1982]. MINERVA II and related models have been applied to explain many kinds of cognitive phenomena and processes such as recognition memory [@arndtTrueFalseRecognition1998], probability judgment and decision-making [@doughertyMINERVADMMemoryProcesses1999], artificial grammar learning [@jamiesonApplyingExemplarModel2009], serial reaction time task performance [@jamiesonApplyingExemplarModel2009a], associative learning phenomena [@jamiesonInstanceTheoryAssociative2012], and computational accounts of semantic knowledge [@jamiesonInstanceTheorySemantic2018].
+
+In MINERVA 2, memory is a matrix $M$. Each row represents a memory trace, and the columns represent features of the trace.
+
+How does encoding work? Individual events are represented as feature vectors $E$, and new events are stored to the next row in the memory matrix $M$. Individual features are stored with probability $L$, representing quality of encoding.
+
+How does retrieval work? A probe (feature vector for a current event in the environment) is submitted to memory, and causes traces to activate in proportion to their similarity to the probe. Similarity between each trace and the probe is computed with a cosine:
+
+$S_i = cos(\theta) = \frac{A \dot B}{||A|| ||B||}$
+
+$S_i = \frac{\sum_{i=1}^n A_iB_i}{\sqrt{\sum_{i=1}^n A_i^2}\sqrt{\sum_{i=1}^n B_i^2}}$
+
+Where A is a probe and B is a memory trace in $M$. 
+
+Activation as function of similarity raised to a power of three.
+
+$A_i = S_i^3$
+
+Each trace is then weighted by its activation (cubed similarity) to the probe, and summed to produce an echo.
+
+$C_j = \sum_{i=1}^m A_i \times M_{ij}$
+
+How is a contingency judgment computed? We take the raw values in the outcome portion of the echo as measures of expectation for the outcome given the cue.
+
+
+# Methods
+
+We used RStudio to create a model of memory. Our model was presented with six different conditions. Three were high outcome density and three were low outcome density conditions. Low outcome density refers to a trial in which fewer outcomes were presented than cues. High outcome density refers to trials where more outcomes were presented than cues. Four types of trials can be presented to the model. The model can be presented with a cue and no outcome, no cue and no outcome, a cue and an outcome, or no cue and an outcome. Our model was shown all four combinations. It was then asked to predict, based on all of the combinations that it had been presented with, whether an outcome would occur given that cues were presented first with no outcomes. 
+
+The three types of streams presented were noncontingent, contingent, and negative contingent. Noncontingent refers to trials where cues and outcomes were presented randomly, with neither meant to predict the other. Contingent refers to when an outcome was predicted given a cue. Negative contingent refers to when an outcome was predicted despite no cue given. 
+
+MINERVA 2 is a multiple-trace model as it assumes that each experience leaves an individual memory trace (Hintzman,1986). In other words, repeated exposure to the same information creates multiple copies rather than strengthening the same memory. MINERVA 2 is mostly focused on long-term memory. However, there is assumed to be a temporary buffer (short-term memory) that relays information to long-term memory (Hintzman, 1988). The model was programmed in R and the code is presented in Appendix 1.
+
+The original experiment by Crump et al. involved a blue square being presented as the cue and a red circle being presented as the outcome. Our model presents cues and outcomes to the model as sets of 0s and 1s. 0 being not present, 1 being present. Specifically, in our simulation, the model was shown 0s and 1s as representations of cues and outcomes, respectively. If a cue was presented first, it may have either been followed by an outcome (1), or no outcome (0). If no cue was presented first (0), it was either followed by no outcome, or an outcome. In theory, the more cues and outcomes presented, the more accurate the model should be at predicting which number will be presented next.
+
+# Simulation 1
+
+```{r, echo=FALSE}
+### Model code for simulation 1
+
+## create contingency task trials
+
+create_trials <- function(A, B, C, D, vector_length, shuffle=FALSE){
+  
+  event_frequencies <- rep(c(1,2,3,4), times = c(A,B,C,D))
+  
+  event_pairs <- matrix(c(rep(c(1,1,1), each = vector_length),
+                          rep(c(1,0,1), each = vector_length),
+                          rep(c(0,1,1), each = vector_length),
+                          rep(c(0,0,1), each = vector_length)),
+                      ncol= vector_length*3,
+                      byrow=TRUE)
+  
+  event_matrix <- event_pairs[event_frequencies,]
+  
+  if(shuffle==FALSE) {return(event_matrix)
+    }else{
+    return(event_matrix[sample(1:length(event_frequencies)),])
+    }
+  
+}
+
+## Run the model function
+
+run_model <- function(trials,probe){
+  memory <- trials
+
+#probe memory with cue only
+
+  similarities <- c()
+  for(i in 1:dim(memory)[1]){
+    similarities[i] <- lsa::cosine(probe,memory[i,])
+  }
+  similarities[is.nan(similarities)]<-0
+  
+  # generate echo
+  weighted_memory <- memory*(similarities^3)
+  echo <- colSums(weighted_memory)
+  
+  return(echo)
+}
+
+### DEFINE conditions
+
+conditions <- list(list(outcome_density = .2,
+                        delta_p = 0,
+                        frequencies = c(6,24,6,24)),
+                   list(outcome_density = .8,
+                        delta_p = 0,
+                        frequencies = c(24,6,24,6)),
+                   list(outcome_density = .33,
+                        delta_p = .467,
+                        frequencies = c(17,13,3,27)),
+                   list(outcome_density = .67,
+                        delta_p = .467,
+                        frequencies = c(27,3,13,17))
+                   )
+
+model_data<-data.frame() #initialize data frame
+
+## Run the model across conditions
+
+for(i in 1:4){
+  trials <- create_trials(A=conditions[[i]]$frequencies[1],
+                          B=conditions[[i]]$frequencies[2],
+                          C=conditions[[i]]$frequencies[3],
+                          D=conditions[[i]]$frequencies[4],
+                          vector_length = 10,
+                          shuffle=TRUE)
+  model_output <- run_model(trials=trials,probe = rep(c(1,0,1),each=10))
+  sim_data <- data.frame(outcome_density = conditions[[i]]$outcome_density,
+                         delta_p = conditions[[i]]$delta_p,
+                         expectation = model_output[11])
+  model_data <- rbind(model_data,sim_data)
+}
+
+# print table
+#knitr::kable(model_data)
+```
+
+
+# Results
+
+```{r, fig.cap = "Original results reprinted from Crump et al. (2007)"}
+
+knitr::include_graphics("imgs/crump_results.png")
+```
+
+The original results from @crumpContingencyJudgementsFly2007 are shown in Figure 1. Describe the meaning of the figure...Describe the main effect of contingency. Describe the main effect of outcome density.
+
+```{r, fig.cap = "Write a caption for figure 1"}
+# plot
+library(ggplot2)
+
+ggplot(model_data,aes(x=outcome_density,
+                      y=expectation,
+                      group=delta_p,
+                      color=delta_p))+
+  geom_line()+
+  geom_point()
+```
+
+Did our MINERVA model produce a similar $\triangle$P effect and outcome density effect to those found in the Crump et al. (2007) study? The results of the model simulations are shown in Figure 2. For both contingent and noncontingent streams of data, contingency ratings were lower when less outcomes were presented. Just like the human participants in the original study, our computer model also had higher contingency ratings when more outcomes were presented than cues (high outcome density). In contingent conditions ($\triangle$P=.467), contingency ratings were much higher overall than noncontingent conditions ($\triangle$P=0), which, as intended, paralleled the results of the original study.
+
+<!--Were we able to simulate a theoretical negative contingency condition? A negative contingency condition ($\triangle$P=-.467) was not present in the original study. In this condition, the presence of a cue would predict the absence of an outcome. We presented the model with two negative contingency trials, one for both high and low outcome density. Our results show that, in theory, had this been the case in the original study, participants would have least expected the occurrence of an outcome under these conditions. In other words, when compared with the two other conditions, contingency ratings were much lower when the model was presented with a negative contingency. This was true for both the high and low outcome density trials. -->
+
+# Discussion
+
+The purposes of this experiment were to create a simulated version of the Crump et al. (2007) study. In general, our model was able to replicate several attributes of the in-person study, such as the $\triangle$P conditions and the outcome densities associated with them. This suggests that aspects of contingency judgments can be explained in terms of memory processes.
+
+Our model contains several key differences when compared with the original study done by Crump et al. (2007). **Discuss that our model did not produce any negative ratings. Notice that in the delta P  = 0, low outcome density condition people gave negative ratings. Why didn't our model produce a negative rating here? discuss next steps...first check if MINERVA 2 can become sensitive to negative contingencies...then change how we measure the model in order to calculate a delta p  value that could be negative.** 
+
+<!--First, presenting the four possible scenarios to the cue and then asking the model to predict what will happen for each of the six conditions yielded results that were similar to those provided by humans. However, the results provided by humans were lower in expectation than those of the model, although similar in range. Scaling error may account for these differences. Another difference between our model and that of the original study is the number of conditions. We included two additional negative contingency conditions in order to evaluate what would theoretically occur had participants predicted the absence of an outcome despite the presence of a cue.-->
+
+By studying contingency judgements, we can gain a better understanding of factors that influence learning, memory, and eventually decision making. Our results indicate that there is a relationship between the number of times a result is shown, and one's prediction of whether or not they will get that an outcome will occur based on a certain cue. This general principle may have implications in the world of mental health, such as with disorders such as anxiety and depression. For instance, it could be the case that one develops depressive symptoms due in part to what they expect to happen (outcomes), based on previous experiences (cues). Of course, it would require a substantial amount of further research to properly examine how previous experiences shape mental disorders.
+
+
+\newpage
+
+# References
+
+```{=tex}
+\begingroup
+\setlength{\parindent}{-0.5in}
+\setlength{\leftskip}{0.5in}
+```
+::: {#refs custom-style="Bibliography"}
+:::
+
+\endgroup
+
+```{r echo = FALSE, results = 'asis', cache = FALSE}
+papaja::render_appendix('appendix-1.Rmd')
+```
+
+
+```{r echo = FALSE, results = 'asis', cache = FALSE}
+papaja::render_appendix('appendix-1.Rmd')
+```
+
+
+```{r echo = FALSE, results = 'asis', cache = FALSE}
+papaja::render_appendix('appendix-1.Rmd')
+```
+
+
+```{r echo = FALSE, results = 'asis', cache = FALSE}
+papaja::render_appendix('appendix-1.Rmd')
+```
+
