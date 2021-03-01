@@ -194,12 +194,21 @@ The original results from @crumpContingencyJudgementsFly2007 are shown in Figure
 # plot
 library(ggplot2)
 
+model_data$delta_p <- as.factor(model_data$delta_p)
+
 ggplot(model_data,aes(x=outcome_density,
                       y=expectation,
                       group=delta_p,
-                      color=delta_p))+
+                      color=delta_p,
+                      shape=delta_p))+
   geom_line()+
-  geom_point()
+  geom_point()+
+  xlab("Probability of Outcome")+
+  ylab("Outcome Activation  \n Strength in Echo")+
+  coord_cartesian(xlim=c(0,1), ylim= c(0,20))+
+  scale_color_discrete(name = expression(Delta~P))+
+  scale_shape_discrete(name = expression(Delta~P))+
+  theme_classic(base_size=12)
 ```
 
 Did our MINERVA model produce a similar $\triangle$P effect and outcome density effect to those found in the Crump et al. (2007) study? The results of the model simulations are shown in Figure 2. For both contingent and noncontingent streams of data, contingency ratings were lower when less outcomes were presented. Just like the human participants in the original study, our computer model also had higher contingency ratings when more outcomes were presented than cues (high outcome density). In contingent conditions ($\triangle$P=.467), contingency ratings were much higher overall than noncontingent conditions ($\triangle$P=0), which, as intended, paralleled the results of the original study.
