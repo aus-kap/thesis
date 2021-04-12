@@ -1,7 +1,10 @@
 ---
-output:
-  pdf_document: default
+output: 
+  pdf_document:
+    includes:
+      in_header: header.tex
 ---
+
 # Appendix 1
 
 ```{r, eval=FALSE, echo=TRUE}
