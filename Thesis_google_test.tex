@@ -1,0 +1,748 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  english,
+  man,floatsintext]{apa6}
+\usepackage{lmodern}
+\usepackage{amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+  \usepackage{amssymb}
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Explaining contingency judgments with a computational model of instance-based memory},
+  pdfauthor={Austin Kaplan1},
+  pdflang={en-EN},
+  pdfkeywords={memory, contingency judgments, MINERVA II, instance theory},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+% Make \paragraph and \subparagraph free-standing
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+\usepackage{color}
+\usepackage{fancyvrb}
+\usepackage{setspace}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+% Manuscript styling
+\usepackage{upgreek}
+\captionsetup{font=singlespacing,justification=justified}
+
+% Table formatting
+\usepackage{longtable}
+\usepackage{lscape}
+% \usepackage[counterclockwise]{rotating}   % Landscape page setup for large tables
+\usepackage{multirow}		% Table styling
+\usepackage{tabularx}		% Control Column width
+\usepackage[flushleft]{threeparttable}	% Allows for three part tables with a specified notes section
+\usepackage{threeparttablex}            % Lets threeparttable work with longtable
+
+% Create new environments so endfloat can handle them
+% \newenvironment{ltable}
+%   {\begin{landscape}\begin{center}\begin{threeparttable}}
+%   {\end{threeparttable}\end{center}\end{landscape}}
+\newenvironment{lltable}{\begin{landscape}\begin{center}\begin{ThreePartTable}}{\end{ThreePartTable}\end{center}\end{landscape}}
+
+% Enables adjusting longtable caption width to table width
+% Solution found at http://golatex.de/longtable-mit-caption-so-breit-wie-die-tabelle-t15767.html
+\makeatletter
+\newcommand\LastLTentrywidth{1em}
+\newlength\longtablewidth
+\setlength{\longtablewidth}{1in}
+\newcommand{\getlongtablewidth}{\begingroup \ifcsname LT@\roman{LT@tables}\endcsname \global\longtablewidth=0pt \renewcommand{\LT@entry}[2]{\global\advance\longtablewidth by ##2\relax\gdef\LastLTentrywidth{##2}}\@nameuse{LT@\roman{LT@tables}} \fi \endgroup}
+
+% \setlength{\parindent}{0.5in}
+% \setlength{\parskip}{0pt plus 0pt minus 0pt}
+
+% \usepackage{etoolbox}
+\makeatletter
+\patchcmd{\HyOrg@maketitle}
+  {\section{\normalfont\normalsize\abstractname}}
+  {\section*{\normalfont\normalsize\abstractname}}
+  {}{\typeout{Failed to patch abstract.}}
+\patchcmd{\HyOrg@maketitle}
+  {\section{\protect\normalfont{\@title}}}
+  {\section*{\protect\normalfont{\@title}}}
+  {}{\typeout{Failed to patch title.}}
+\makeatother
+\shorttitle{Memory and contingency judgments}
+\keywords{memory, contingency judgments, MINERVA II, instance theory\newline\indent Word count: 2180}
+\usepackage{lineno}
+
+\linenumbers
+\usepackage{csquotes}
+\ifxetex
+  % Load polyglossia as late as possible: uses bidi with RTL langages (e.g. Hebrew, Arabic)
+  \usepackage{polyglossia}
+  \setmainlanguage[]{english}
+\else
+  \usepackage[shorthands=off,main=english]{babel}
+\fi
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
+ {% don't indent paragraphs
+  \setlength{\parindent}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1 \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces\fi
+  % set entry spacing
+  \ifnum #2 > 0
+  \setlength{\parskip}{#2\baselineskip}
+  \fi
+ }%
+ {}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+
+\title{Explaining contingency judgments with a computational model of instance-based memory}
+\author{Austin Kaplan\textsuperscript{1}}
+\date{}
+
+
+\authornote{
+
+Brooklyn College of Psychology, submitted for PSYC 5001 (Dr.~Matthew Crump) as part of a two-semester honors thesis. This paper will be integrated into the final honors thesis to be submitted for PSYC 5002.
+
+Correspondence concerning this article should be addressed to Austin Kaplan, 2900 Bedford Avenue. E-mail: \href{mailto:aus10kap@aol.com}{\nolinkurl{aus10kap@aol.com}}
+
+}
+
+\affiliation{\vspace{0.5cm}\textsuperscript{1} Brooklyn College}
+
+\abstract{
+The purpose of this thesis was to develop and test an account of human contingency judgments based on a computational model of human memory. Specifically, we used MINERVA 2, a simulation model of episodic memory (Hintzman, 1986). MINERVA 2 is a model of encoding and retrieval. It assumes that individual experiences are encoded as memory traces, and that traces are retrieved as a function of their similarity to an environmental stimulus. I tested the model by attempting to simulate a study done by Crump, Hannah, Allan, and Hord (2007), that illustrated two major phenomena in the contingency judgment literature, such as the \(\triangle\)P and outcome density effects. I show that the model can successfully account for both normative contingency judgment behavior and the outcome density bias, and discuss implications for future research.
+}
+
+
+
+\begin{document}
+\maketitle
+
+\hypertarget{introduction}{%
+\section{Introduction}\label{introduction}}
+
+Imagine driving down a highway at a speed of sixty miles per hour. Suddenly, you hear on the radio that a car accident has occurred on the same highway that you are driving on. Given your previous experience with driving on this highway, you anticipate a longer commute time. Why did you predict a longer commute? How was this anticipation formed? Is the anticipation accurate or biased? These types of questions are asked by researchers when studying contingency learning and judgments, which include the cognitive processes enabling people to become sensitive to whether particular stimulus predict particular outcomes. The purpose of studying human contingency judgments is to gain a better understanding of the way that people learn about the causal relationships between events (Beckers, De Houwer, \& Matute, 2007).
+
+There are many different theories of how people become sensitive to contingency information. The purpose of this thesis was to propose a new memory-based explanation using a computational model based on MINERVA 2, which is a simulation model of episodic memory Hintzman (1988). Before explaining the model, I will first review the current literature on human contingency judgments. The review will describe tasks and phenomena in the domain, discuss current theories of contingency learning and explain how they differ from my proposal. Finally, I will describe and explain MINERVA 2 before applying the model to simulate results from Crump, Hannah, Allan, and Hord (2007).
+
+\hypertarget{the-contingency-judgment-literature-tasks-and-phenomena}{%
+\subsection{The contingency judgment literature: tasks and phenomena}\label{the-contingency-judgment-literature-tasks-and-phenomena}}
+
+\hypertarget{what-is-a-contingency}{%
+\subsubsection{What is a contingency?}\label{what-is-a-contingency}}
+
+Contingency is formally defined as a statistical relationship between two dichotomous, binary variables. In this thesis, I will refer to two kinds of events cues and outcomes, both of which can occur or not occur. For example, the notice of an accident on the highway could be a cue; and, observing a slow-down in traffic following the cue could be an outcome. The contingency between a cue and outcome is established over a history of event pairings. There are four possible cue-outcome pairings that can be presented with varying frequencies to manipulate the cue-outcome relationship; and, these are shown in Table 1.
+
+
+
+\begin{table}[tbp]
+
+\begin{center}
+\begin{threeparttable}
+
+\caption{\label{tab:contingencytable}A 2x2 contingency table for a single cue and outcome.}
+
+\begin{tabular}{lll}
+\toprule
+ & \multicolumn{1}{c}{Outcome} & \multicolumn{1}{c}{No Outcome}\\
+\midrule
+Cue & A & B\\
+No Cue & C & D\\
+\bottomrule
+\end{tabular}
+
+\end{threeparttable}
+\end{center}
+
+\end{table}
+
+Table 1 displays a 2x2 contingency table representing the four different cue-outcome pairings. The letters represent the frequency of each event pair. First, a cue is presented and an outcome occurs (A). Second, a cue is presented and an outcome does not occur (B). Third, a cue is not presented and an outcome occurs (C). Fourth, a cue is not presented and an outcome does not occur (D). Conventionally, the contingency between the cue-outcome pairs over all events is defined by the \(\triangle\)P rule (see Allan, 1980). The formula to compute \(\triangle\)P is:
+
+\(\Delta P = \frac{A}{A+B} - \frac{C}{C+D}\)
+
+In other words, \(\Delta P\) is a difference between two conditional probabilities:
+
+\(\Delta P = P(Cue|Outcome) - P(Cue|No Outcome)\)
+
+\(\triangle\)P can range from 1 to -1, and behaves similarly to a correlation coefficient. When \(\triangle\)P is 1, the presence of a cue perfectly predicts the occurrence of an outcome; and, the absence of the cue perfectly predicts the absence of the outcome. When \(\triangle\)P is -1, the presence of a cue predicts the absence of an outcome, and the absence of cue predicts the presence of the outcome. When \(\triangle\)P approaches 0, the presence or absence of the cue does not predict the presence or absence of the outcome.
+
+To return to the highway traffic example, a person may anticipate that traffic will slow down after hearing about an accident because they may be sensitive to a positive contingency relationship between accident events and the consequences for traffic flow. In a laboratory scenario, it is possible to measure peoples' abilities to judge contingencies between events using a variety of contingency judgment tasks discussed next.
+
+\hypertarget{assessing-contingency-judgment-ability}{%
+\subsubsection{Assessing contingency judgment ability}\label{assessing-contingency-judgment-ability}}
+
+The discrete-trial procedure is a common method used to measure contingency judgment ability. Allan (1993) describes several studies that use the discrete-trial procedure. For example, on each trial, Allan and Jenkins (1980) presented subjects with an empty lake scene in which they could respond by either moving or not moving a joystick. After performing this action, the scene would either change to a picture of the lake with the Loch Ness Monster in it, or it would remain the same. Allan also describes a study by Shanks (1985), in which participants were shown a tank moving across the screen and passing a gun sight. Participants chose either to fire or not fire at the tank, and then observed whether or not the tank was destroyed. In general, in these tasks, people are presented with pairs (ABCD frequency information) of cue-outcome events over a series of trials, and then asked to make judgments of contingency between the cue and the outcome at the end of the series of trials. For example, in the Loch Ness monster example, after viewing a series of events, participants could be asked to rate the contingency between their response and the appearance of the Loch Ness Monster.
+
+This thesis provides a memory-based explanation for contingency judgment phenomena from Crump, Hannah, Allan, and Hord (2007), who used the streamed trials procedure. The streamed-trials procedure is essentially a faster version of the discrete-trials procedure. For example, in the streamed-trials procedure, cues and outcomes for each event are presented for 100 ms intervals, separated by another short intertrial interval of 100ms intervals. That study used abstract cues and outcomes. For example, cues were displayed as a blue square that appeared or or did not appear, and outcomes were displayed as a red circle that appeared or did not appear. A streamed-trial consisted of 60 events presented to participant, followed by a question to rate the contingency between the cue and outcome. A benefit of the streamed-trials procedure was that individual participants could be presented with many streamed trials over the course of an experiment. As a result, it was possible to conduct within-subject repeated measures designs, and measure how a single subject's ratings changed across different levels of \(\Delta P\) programmed into each streamed trial.Although there are many contingency judgment tasks to choose from, the modelling efforts in this thesis were focused on the design and results from Crump, Hannah, Allan, and Hord (2007). The important aspect was not the streamed trial nature of that design. Instead, the design conveniently demonstrated two important contingency judgment that are found across tasks. Thus, the major aim of the modelling effort was to determine if the model could successfully explain hallmark findings in the literature.
+
+\hypertarget{classical-contingency-judgment-phenomena}{%
+\subsubsection{Classical contingency judgment phenomena}\label{classical-contingency-judgment-phenomena}}
+
+The modelling effort focused on explaining two major phenomena defined as the contingency effect, and the outcome density effect. Both are explained in turn.The contingency effect is the basic finding that humans are capable of making contingency judgments that appear to track \(\Delta P\). For example, when the programmed \(\Delta P\) value in a series of cue-outcome events is positive, participants judgements of contingency tend to be positive, and when the \(\Delta P\) value in a series of cue-outcome events is negative, participants judgements of contingency tend to be negative. In other words, participants judgments of contingency tends to vary as a function of the actual \(\Delta P\) between the events they are judging.
+
+The outcome density effect is an example of a bias in contingency judgment. A bias occurs when people make contingency judgments that are different from the actual \(\Delta P\) value between the events. The outcome density effect is the finding that ratings of contingency are also biased by the overall proportion of outcomes, which can be statistically independent from \(\Delta P\). Specifically, participants rate cues as more predictive of outcomes that are more frequent than less frequent. In summary, this thesis identified the contingency effect and outcome density bias as a useful starting point to test a new memory model of contingency judgments. Before elaborating on the new model, I now review a few of the existing theories.
+
+\hypertarget{theoretical-process-accounts-of-contingency-judgments}{%
+\subsection{Theoretical process accounts of Contingency judgments}\label{theoretical-process-accounts-of-contingency-judgments}}
+
+What psychological mechanisms are involved in making contingency judgments? Several theories can be used to explain the way in which contingency judgments work. Next, I review rule-based, associative, and signal detection accounts of contingency judgments before describing the memory-based approach taken in this thesis.
+
+\hypertarget{rule-based-accounts}{%
+\subsubsection{Rule-based accounts}\label{rule-based-accounts}}
+
+Rule-based theories explain contingency judgments in terms of the application of formulas, much like the way a statistician would compute contingency values. (Allan, 1993). For example, Allan discusses the \(\triangle\)P rule, which is defined as the difference between two independent conditional probabilities. It is possible that people act like ``calculators,'' and use the \(\triangle\)P formula when making contingency judgments. A relatively recent development in ordering packages from Amazon is a real-world example we can use to illustrate this idea. The company now posts a photo online of the package on the doorstep to show that an order was delivered; however, this is not always the case. Four possible cue-outcome events can occur. First, an order is delivered (cue) and a picture (outcome) is posted (A). Second, an order is delivered and a picture is not posted. Third, an order is not delivered and a picture is posted. Fourth, an order is not delivered and a picture is not posted. Anyone familiar with Amazon delivery could be asked to rate the contingency between package delivery and photo evidence of the delivery. . According to rule-based theory, a person could do this by explicitly using the \(\triangle\)P formula.
+
+Explicit rule-based contingency judgments would involve a set of additional processes. First, a person would need to estimate or obtain the frequencies of each of the A, B, C, and D cue-outcome events. These frequencies could be estimated in some unknown fashion through some memory process, or a person could potentially review the history of Amazon orders to obtain accurate frequencies. Then, to make the contingency judgment, they would need to understand that the \(\triangle\)P formula is an appropriate measure of contingency judgment, and they would need to enter the frequency values into the formula, calculate the \(\triangle\)P value, and report the value as their contingency judgment.
+
+Although it is clear that people may have the ability to use algebra and apply mathematical rules to transform frequency information into a contingency judgment, it is much less clear that people use this approach in everyday life. For example, people seem able to sense contingency information on an intuitive level without explicitly applying rules. And, if people were using the \(\triangle\)P rule alone, then it is unclear why biases in contingency judgment would appear such as the outcome density effect.
+
+\hypertarget{associative-accounts}{%
+\subsubsection{Associative accounts}\label{associative-accounts}}
+
+Associative theory explains that contingency judgments depend on associative knowledge formed automatically through classical conditioning processes. According to this line of reasoning, contingency knowledge, like associative bonds, is learned through the repeated presentation of stimuli. And, people rely upon their existing associative knowledge when making judgments. In other words, a contingency judgment should roughly reflect a read-out of the strength of association between a cue and outcome. One implication of the associative view, is that phenomena that influence how people learn associations should also influence contingency judgments.
+
+Consider the Rescorla-Wagner model of learning (Rescorla \& Wagner, 1972)explains that when a CS is frequently paired with a US and is consistent in eliciting a CR, the CS has acquired associative strength. Under these circumstances, participants will easily come to associate the CS with the US, and respond accordingly. This aspect of the model can account both for the standard contingency effect and the outcome density effect in human contingency judgments. For example, frequent exposure to cue-outcome events (CS-US events) will increase the associative bond between the cue and outcome and support increasingly more positive contingency judgments.
+
+Additionally, the Rescorla-Wagner model suggests that the amount of learning diminishes as a conditioned stimulus becomes more familiar. model explains that Furthermore, Rescorla and Wagner state, ``changes in the strength of a stimulus depend upon the total associative strength of the compound in which that stimulus appears.'' Rescorla and Wagner support their assertion that all stimuli present when the US occurs are important to consider, by demonstrating that their model can explain the blocking effect (Kamin, 1969), which occurs when a new association is unable to be properly formed due to a previous association with the US. Similarly, blocking phenomena have been demonstrated in human contingency judgment tasks (Shanks, 1985), which further supports the notion that associative processes may be involved in human contingency judgment.
+
+\hypertarget{signal-detection-accounts}{%
+\subsubsection{Signal-detection accounts}\label{signal-detection-accounts}}
+
+Signal detection theory (Green \& Swets, 1966) is a measurement framework that can separate one's ability to differentiate between actual information (sensitivity) and biases that can emerge during a judgment task.For example, contingency judgments are formed based on one's ability to report on their internal sensitivity to contingency informationSiegel, Allan, Hannah, \& Crump (2009). The signal detection approach does not specify how people become sensitive to contingency information, and it is compatible with other models like the associative account which could explain sensitivity in terms of association bond formation. Several factors may influence one's judgment. A minimum amount of change is necessary for one to be able to notice whether something is different from what they have previously experienced. There is also a minimum amount of stimulation required in order for someone to be aware that something is happening. If a significant amount of time is elapsed between two events, one may be less likely to predict that one event caused another. For example, if you eat spoiled food but do not get sick until three weeks later, you may be less likely to predict that the food caused the illness than if you had become sick immediately after consumption.Further, noise interference also plays a role. This can be anything that distracts a participant while they are trying to focus on the contingency task, such as thoughts, sounds, or other objects in sight. These factors can influence, positively or negatively, one's memory of the contingency task. A major contribution of the signal detection approach is to determine whether contingency judgment phenomena potentially reflect changes in sensitivity or bias. For example, Allan, Hannah, Crump, and Siegel (2008) demonstrated the outcome density effect reflects a bias in reporting the strength of contingency rather than a more fundamental change to the process responsible for acquiring associative knowledge.
+
+\hypertarget{memory-accounts}{%
+\subsubsection{Memory accounts}\label{memory-accounts}}
+
+Although memory for previous experience is clearly relevant to the task of making judgments about contingency between cues and outcomes that appeared over time, the role of memory processes in contingency judgments has not been broadly discussed (but see, Arkes \& Rothbart, 1985) or formalized. This thesis examines whether a computational model of human memory, MINERVA II, could provide a useful memory-based explanation of contingency judgment phenomena.
+
+MINERVA II is a multiple-trace theory of memory. It is assumes that individual experiences are encoded as traces into memory. Furthermore, it assumes that repeated exposure to the same information creates multiple copies rather than strengthening the same memory. A major assumption is that representations of an individual experience are roughly wholistic, that is they include the collection of details present in the experience within the representation for that trace. In other words, a single trace potentially contains all of the contextual information embedded within a specific experience. MINERVA II can behave similarly to an associative account, however it does not directly learn or form associative bonds between cues and outcomes. Instead, the whole history of cue-outcome pairings is stored within separate traces in memory. Minerva II also assumes that retrieval operates in a cue and similarity driven fashion. A cue or pattern in the environment is compared to traces in memory and activates similar memory traces in parallel, which are then used at retrieval.
+
+In principle, MINVERA II should be able to perform a contingency judgment task. For example, it would be possible to provide the memory with examples of cue-outcome events just as participants are in the discrete trials procedure. Then, the memory could be probed with a cue pattern or the absence of a cue pattern. In both cases, similar to the process of cued-recall, the memory would retrieve different amounts of contextual information that were paired with the cue within the memory traces. In other words, MINERVA II should retrieve expectations for the outcome given a cue. The question I set out to answer in this thesis was whether the MINERVA II process would also produce contingency effects and the outcome density bias in the same way that people do. Before moving on to the simulations, I describe MINERVA II in more detail.
+
+\hypertarget{minerva-ii}{%
+\subsection{MINERVA II}\label{minerva-ii}}
+
+MINERVA II is a computational instance theory of human memory (Hintzman, 1984, 1986, 1988). It is conceptually similar to other global-similarity models of memory (Eich, 1982; Murdock, 1993). MINERVA II and related models have been applied to explain many kinds of cognitive phenomena and processes such as recognition memory (Arndt \& Hirshman, 1998), probability judgment and decision-making (Dougherty, Gettys, \& Ogden, 1999), artificial grammar learning (Jamieson \& Mewhort, 2009a), serial reaction time task performance (Jamieson \& Mewhort, 2009b), associative learning phenomena (Jamieson, Crump, \& Hannah, 2012), and computational accounts of semantic knowledge (Jamieson, Avery, Johns, \& Jones, 2018).
+
+In MINERVA 2, memory is a matrix \(M\). Each row represents a memory trace, and the columns represent features of the trace.
+
+How does encoding work? Individual events are represented as feature vectors \(E\), and new events are stored to the next row in the memory matrix \(M\). Individual features are stored with probability \(L\), representing quality of encoding. For example, in the present simulations I used a feature vector with 30 elements. The first 10 elements coded the presence or absence of the cue. When the cue was present, the elements were set to 1. When the cue was absent, the elements were set to 0. The 11th to 20th elements coded the outcome, again setting the elements to 1 or 0 depending on whether the outcome was present or absent. The elements 21 to 30 coded the background context, and were set to 1 for all traces.
+
+How does retrieval work? A probe (feature vector for a current event in the environment) is submitted to memory, and causes traces to activate in proportion to their similarity to the probe. Similarity between each trace and the probe is computed with a cosine:
+
+\(S_i = cos(\theta) = \frac{A \dot B}{||A|| ||B||}\)
+
+\(S_i = \frac{\sum_{i=1}^n A_iB_i}{\sqrt{\sum_{i=1}^n A_i^2}\sqrt{\sum_{i=1}^n B_i^2}}\)
+
+Where A is a probe and B is a memory trace in \(M\).
+
+Activation is a function of similarity raised to a power of three, and it is possible to further raise the exponent The exponent, sometimes also called resonance, acts like a tuning parameter causing only the most similar traces to be viable for retrieval as resonance is increased.
+
+\(A_i = S_i^3\)
+
+Each trace is then weighted by its activation (cubed similarity) to the probe, and summed to produce an echo.
+
+\(C_j = \sum_{i=1}^m A_i \times M_{ij}\)
+
+How is a contingency judgment computed? We take the raw values in the outcome portion of the echo as measures of expectation for the outcome given the cue. More specifically, we ask the model to derive a contingency judgment in two steps. In the first step, the model is probed with a cue-present feature vector that contains no outcome. This probe will tend to be more similar to traces that contain a cue-present feature, causing those traces to be more highly represented in the retrieved echo. To the extent that those traces include pairings with the outcome, the outcome features will also be present in the echo. To measure the extent to which the cue retrieves an expectation for the outcome, we simply recorded the raw value in the echo from the first element of the outcome field (the 11th unit). In the second step, we probe the memory with a cue-absent feature vector and record the expectation for the outcome. These two values are similar to the conditional probability of receiving an outcome given a cue, and receiving an outcome given no cue. The model-based contingency judgment was thus taken as a difference between the expectations.
+
+\hypertarget{simulation-1}{%
+\section{Simulation 1}\label{simulation-1}}
+
+Our experiment is based on a research study performed by Crump, Hannah, Allan, and Hord (2007). While this study involved presenting humans with a contingency task, our computer model attempts to replicate the findings of this study, and expand upon it. The Crump, Hannah, Allan, and Hord (2007) study tested for the contingency effect as well as the outcome density effect by manipulating the number of cues and outcomes presented in each condition. Specifically, they used a 2x2 design manipulating both contingency and outcome density. The contingency manipulation involved streamed-trials that include zero contingency or a medium positive contingency. The outcome density manipulation involved streamed-trials that included a low or high proportion of outcomes. These levels were crossed to produce the four conditions shown in Figure 1.
+
+\begin{figure}
+
+{\centering \includegraphics[width=3in]{imgs/crump_figure2_cropped} 
+
+}
+
+\caption{Original 2x2 contingencies tables reprinted from Crump, Hanah, Allan, \& Hord, (2007). The top two matrices outline the frequency of the four cue-outcome pairings in a (left) low outcome density noncontingent stream, $\triangle$P = 0, P(O) = .2, and a (right) high outcome density noncontingent stream, $\triangle$P = 0, P(O) = .8. The bottom two matrices define a (left) low outcome density contingent stream, $\triangle$P = .467, P(O) = .33, and (right) high outcome density contingent stream,  $\triangle$P = .467, P(O) = .67.}\label{fig:unnamed-chunk-1}
+\end{figure}
+
+After viewing a streamed-trial participants were asked at random to complete a contingency rating judgments or a frequency estimate judgments. The contingency rating judgments were collected using a sliding scale, where participants could choose between -100 and +100. In order to take in frequency estimate judgments, participants were presented with four images, each representing one of the four cue-outcome events. One field was left empty, in which participants were told to write in an estimate of the frequency of occurrence for each circumstance.
+
+\begin{figure}
+
+{\centering \includegraphics[width=3in]{imgs/crump_results} 
+
+}
+
+\caption{Original results reprinted from Crump, Hanah, Allan, \& Hord, (2007).}\label{fig:unnamed-chunk-2}
+\end{figure}
+
+The original results from Crump, Hannah, Allan, and Hord (2007) are shown in Figure 2. The figure shows that, for non-contingent conditions (\(\triangle\)P=0, diamond shape), contingency ratings were lower for both low and high outcome density conditions. Participants' contingency ratings were highest overall during contingent conditions (\(\triangle\)P=.467, diamond shape). This trend indicates that the \(\triangle\)P effect is present. However, regardless of stream condition, contingency ratings were always higher when outcome density was larger. This shows that the outcome density effect is present.
+
+The purpose of simulation 1 was to deliver the same set of conditions as in Crump, Hannah, Allan, and Hord (2007) to MINERVA II, and then determine whether the model makes similar patterns of contingency judgments. In particular, we were interested in whether the model would show both the standard contingency effect as well as the outcome density effect.
+
+\hypertarget{methods}{%
+\subsection{Methods}\label{methods}}
+
+We used RStudio to create a model of memory. Our model was presented with two types of streams, non-contingent and contingent. Non-contingent refers to trials where \(\triangle\)P is 0. This means there is no relationship between the cues and outcomes shown, regardless of outcome density. Cues do not predict outcomes, and outcomes do not predict cues. Contingent refers to trials where \(\triangle\)P is .467, where the presence of a cue does foreshadow the presence of an outcome. Each type of stream contained two conditions, low outcome density and high outcome density. Low outcome density refers to a trial in which fewer outcomes were presented than cues. Four types of trials were presented to the model. The model was presented with either, a cue and an outcome, a cue and no outcome, no cue and an outcome, or no cue and no outcome. After being shown these combinations many times, our model was asked to predict whether an outcome would occur given that cues were presented first with no outcomes.
+
+As mentioned earlier, MINERVA II is a multiple trace model, and so it assumes that each experience leaves an individual memory trace. With repeated exposure to the same information, it creates multiple copies rather than strengthening the same memory. MINERVA II is mostly focused on long-term memory, however, there is assumed to be a temporary buffer (short-term memory) that relay information to long-term memory. The model was programmed in R and the code is presented in Appendix 1.
+
+The original experiment performed by Crump, Hannah, Allan, and Hord (2007) involved a blue square being presented as the cue and a red circle being presented as the outcome. Our model presents cues and outcomes to the model as sets of 0s and 1s. 0 being not present, 1 being present. If a cue was presented first (1), it may have either been followed by an outcome (1), or no outcome (0). If no cue was presented first (0), it was either followed by no outcome, or an outcome. In theory, the more cues and outcomes presented, the more accurate the model will be at predicting the presence or absence of each.
+
+I used the following open-source software for the model code, analyses, and to create this thesis as a reproducible report, R {[}Version 4.0.2; R Core Team (2020){]} and the R-packages \emph{ggplot2} {[}Version 3.3.2; Wickham et al. (2020){]}, \emph{knitr} {[}Version 1.30; Xie (2020){]}, \emph{lsa} {[}Version 0.73.2; Wild (2020){]}, \emph{papaja} {[}Version 0.1.0.9997; Aust and Barth (2020){]}, and \emph{rmarkdown} {[}Version 2.6; Allaire et al. (2020){]}.
+
+\hypertarget{results}{%
+\subsection{Results}\label{results}}
+
+\begin{figure}
+
+{\centering \includegraphics{Thesis_google_test_files/figure-latex/unnamed-chunk-5-1} 
+
+}
+
+\caption{Mean Contingency Ratings Based on Outcome Density.}\label{fig:unnamed-chunk-5}
+\end{figure}
+
+Did our MINERVA model produce a similar \(\triangle\)P effect and outcome density effect to those found in the Crump, Hannah, Allan, and Hord (2007) study? The results of the model simulations are shown in Figure 3. For both contingent (\(\triangle\)P=.467) and non-contingent (\(\triangle\)P=0) streams of data, contingency ratings (Outcome Activation Strength in Echo) were lower when less outcomes were presented (low outcome density, lower Probability of Outcome). Just like the human participants in the original study, our computer model also had higher contingency ratings when more outcomes were presented than cues (high outcome density, greater Probability of Outcome). In contingent conditions, contingency ratings were much higher overall than in non-contingent conditions. Overall, the results paralleled those of the original study, providing some initial support for a memory-based view of contingency judgment.
+
+\hypertarget{simulation-2}{%
+\section{Simulation 2}\label{simulation-2}}
+
+I noted briefly earlier that Crump, Hannah, Allan, and Hord (2007) manipulated the judgment that participants gave following each trial. Specifically, participants either received a contingency rating task, or a frequency estimation task. For the frequency judgment task, participants were asked to estimate the frequency of each of the four cue-outcome event pairs that were presented in the trial. With this measure, it was possible to derive a contingency value from the frequency estimates. The results from the frequency judgments in the original study are presented in figure 4.
+
+\begin{figure}
+
+{\centering \includegraphics[width=3in]{imgs/crump_frequency_results} 
+
+}
+
+\caption{Mean transformed $\triangle$P scores derived from participant’s frequency estimates (with standard error) as a function of $\triangle$P (0 vs. .467) and outcome density.}\label{fig:unnamed-chunk-6}
+\end{figure}
+
+The interesting finding was that the outcome density bias was no longer present for contingency ratings derived from frequency estimates. The purpose of Simulation 2 was to determine whether MINERVA II would show a similar pattern if it was asked to make frequency judgments. Notably, MINERVA II was developed originally in part to explain frequency judgments (Hintzman, 1988), so it can naturally be applied to frequency judgments in the contingency judgment task.
+
+\hypertarget{methods-1}{%
+\subsection{Methods}\label{methods-1}}
+
+Simulation 2 was nearly identical to Simulation 1 with the following exceptions. After each streamed trial, the model was probed with one of the four cue-outcome event pairs, and following Hintzman (1988), the sum of the similarity weighted activations was recorded as the model response. The four responses were then entered directly into the \(\Delta P\) formula to compute a frequency derived contingency value. Additionally, the model was evaluated for different levels of resonance, which is the exponent used to raise the similarities. The simulation code is reported in Appendix 2.
+
+\hypertarget{results-1}{%
+\subsection{Results}\label{results-1}}
+
+The results of Simulation 2 are reported in figure 5.
+
+\begin{figure}
+
+{\centering \includegraphics{Thesis_google_test_files/figure-latex/unnamed-chunk-8-1} 
+
+}
+
+\caption{Mean model contingency ratings derived from model estimates of frequency judgments.}\label{fig:unnamed-chunk-8}
+\end{figure}
+
+\hypertarget{general-discussion}{%
+\section{General Discussion}\label{general-discussion}}
+
+The purpose of this experiment was to create a simulated version of the study performed by Crump, Hannah, Allan, and Hord (2007). In general, our model was able to replicate several attributes of the in-person study, such as the \(\triangle\)P conditions and the outcome densities associated with them. This suggests that contingency judgments can be explained in terms of memory processes.
+
+\hypertarget{limitations}{%
+\subsection{Limitations}\label{limitations}}
+
+Our model contains several key differences when compared with the original study done by Crump, Hannah, Allan, and Hord (2007). One major difference between our model and the in-person study is that our simulation did not produce any negative ratings. Specifically, the outcome density effect was not present. Several factors may explain this result, such as the fact that no human participants were included in our study. In the low outcome density condition (\(\triangle\)P=0) of the original study, human beings gave negative ratings. This was likely due to the outcome density effect. This phenomenon was not present in our simulation data {[}was the effect present?{]}. Another factor that may explain this result is the possibility that we overlooked particular variables when creating our model. It could be the case that we neglected to implement code for some aspect of attention or memory.
+
+By studying contingency judgments, we can gain a better understanding of factors that influence learning, memory, and eventually decision making. Our results indicate that there is a relationship between the number of times an outcome is shown, and one's prediction of whether or not an outcome will occur based on a cue. This general principle may have real-world implications, such as in regard to interpreting data. One may falsely attribute one variable to causing another based on often experiencing both variables together. This relates to the statistical principle ``correlation does not imply causation.'' {[}expand{]}
+{[}Fundamental attribution error explanation and comparison?{]}
+
+\hypertarget{future-research}{%
+\subsection{Future Research}\label{future-research}}
+
+In order to create a model that produces results that are more to the original study, we {[}created (should I include this?){]} a negative contingency condition. In this condition, we set \(\triangle\)P equal to -.467, meaning that the presence of a cue would predict the absence of an outcome. In this condition, the model was more likely to give negative ratings of contingency.
+
+\newpage
+
+\hypertarget{references}{%
+\section{References}\label{references}}
+
+\begingroup
+\setlength{\parindent}{-0.5in}
+\setlength{\leftskip}{0.5in}
+
+\hypertarget{refs}{}
+\begin{CSLReferences}{1}{0}
+\leavevmode\hypertarget{ref-R-rmarkdown}{}%
+Allaire, J., Xie, Y., McPherson, J., Luraschi, J., Ushey, K., Atkins, A., \ldots{} Iannone, R. (2020). \emph{Rmarkdown: Dynamic documents for r}. Retrieved from \url{https://github.com/rstudio/rmarkdown}
+
+\leavevmode\hypertarget{ref-allanHumanContingencyJudgments1993}{}%
+Allan, L. G. (1993). Human contingency judgments: {Rule} based or associative? \emph{Psychological Bulletin}, \emph{114}(3), 435--448. \url{https://doi.org/dw9tzr}
+
+\leavevmode\hypertarget{ref-allanPsychophysicsContingencyAssessment2008}{}%
+Allan, L. G., Hannah, S. D., Crump, M. J. C., \& Siegel, S. (2008). The psychophysics of contingency assessment. \emph{Journal of Experimental Psychology: General}, \emph{137}(2), 226--243. \url{https://doi.org/fmtpwt}
+
+\leavevmode\hypertarget{ref-allanJudgmentContingencyNature1980}{}%
+Allan, L. G., \& Jenkins, H. M. (1980). The judgment of contingency and the nature of the response alternatives. \emph{Canadian Journal of Psychology/Revue Canadienne de Psychologie}, \emph{34}(1), 1. \url{https://doi.org/b543bg}
+
+\leavevmode\hypertarget{ref-arkesMemoryRetrievalContingency1985}{}%
+Arkes, H. R., \& Rothbart, M. (1985). Memory, retrieval, and contingency judgments. \emph{Journal of Personality and Social Psychology}, \emph{49}(3), 598. \url{https://doi.org/fcrhrk}
+
+\leavevmode\hypertarget{ref-arndtTrueFalseRecognition1998}{}%
+Arndt, J., \& Hirshman, E. (1998). True and {False Recognition} in {MINERVA2}: {Explanations} from a {Global Matching Perspective}. \emph{Journal of Memory and Language}, \emph{39}(3), 371--391. \url{https://doi.org/bf5r6d}
+
+\leavevmode\hypertarget{ref-R-papaja}{}%
+Aust, F., \& Barth, M. (2020). \emph{Papaja: Prepare reproducible APA journal articles with r markdown}. Retrieved from \url{https://github.com/crsh/papaja}
+
+\leavevmode\hypertarget{ref-beckersEditorialHumanContingency2007}{}%
+Beckers, T., De Houwer, J., \& Matute, H. (2007). Editorial: {Human} contingency learning. \emph{Quarterly Journal of Experimental Psychology}, \emph{60}(3), 289--290. \url{https://doi.org/cprckg}
+
+\leavevmode\hypertarget{ref-crumpContingencyJudgementsFly2007}{}%
+Crump, M. J. C., Hannah, S. D., Allan, L. G., \& Hord, L. K. (2007). Contingency judgements on the fly. \emph{The Quarterly Journal of Experimental Psychology}, \emph{60}(6), 753--761. \url{https://doi.org/b9jjc4}
+
+\leavevmode\hypertarget{ref-doughertyMINERVADMMemoryProcesses1999}{}%
+Dougherty, M. R., Gettys, C. F., \& Ogden, E. E. (1999). {MINERVA}-{DM}: {A} memory processes model for judgments of likelihood. \emph{Psychological Review}, \emph{106}(1), 180--209. \url{https://doi.org/ct5hdj}
+
+\leavevmode\hypertarget{ref-eichCompositeHolographicAssociative1982}{}%
+Eich, J. M. (1982). A composite holographic associative recall model. \emph{Psychological Review}, \emph{89}(6), 627--661. \url{https://doi.org/fkjzpx}
+
+\leavevmode\hypertarget{ref-greenSignalDetectionTheory1966}{}%
+Green, D. M., \& Swets, J. A. (1966). \emph{Signal detection theory and psychophysics} (Vol. 1). {Wiley New York}.
+
+\leavevmode\hypertarget{ref-hintzmanMINERVASimulationModel1984}{}%
+Hintzman, D. L. (1984). {MINERVA} 2: {A} simulation model of human memory. \emph{Behavior Research Methods, Instruments, \& Computers}, \emph{16}(2), 96--101. \url{https://doi.org/fx78p6}
+
+\leavevmode\hypertarget{ref-hintzmanSchemaAbstractionMultipletrace1986}{}%
+Hintzman, D. L. (1986). Schema abstraction in a multiple-trace memory model. \emph{Psychological Review}, \emph{93}(4), 411--428. \url{https://doi.org/bzdsr4}
+
+\leavevmode\hypertarget{ref-hintzmanJudgmentsFrequencyRecognition1988}{}%
+Hintzman, D. L. (1988). Judgments of frequency and recognition memory in a multiple-trace memory model. \emph{Psychological Review}, \emph{95}(4), 528--551. \url{https://doi.org/fnm39h}
+
+\leavevmode\hypertarget{ref-jamiesonInstanceTheorySemantic2018}{}%
+Jamieson, R. K., Avery, J. E., Johns, B. T., \& Jones, M. N. (2018). An instance theory of semantic memory. \emph{Computational Brain \& Behavior}, \emph{1}(2), 119--136. \url{https://doi.org/gf6cm7}
+
+\leavevmode\hypertarget{ref-jamiesonInstanceTheoryAssociative2012}{}%
+Jamieson, R. K., Crump, M. J. C., \& Hannah, S. D. (2012). An instance theory of associative learning. \emph{Learning \& Behavior}, \emph{40}(1), 61--82. \url{https://doi.org/dwkrm5}
+
+\leavevmode\hypertarget{ref-jamiesonApplyingExemplarModel2009}{}%
+Jamieson, R. K., \& Mewhort, D. J. (2009a). Applying an exemplar model to the artificial-grammar task: {Inferring} grammaticality from similarity. \emph{The Quarterly Journal of Experimental Psychology}, \emph{62}(3), 550--575. \url{https://doi.org/d8xpjj}
+
+\leavevmode\hypertarget{ref-jamiesonApplyingExemplarModel2009a}{}%
+Jamieson, R. K., \& Mewhort, D. J. (2009b). Applying an exemplar model to the serial reaction-time task: {Anticipating} from experience. \emph{The Quarterly Journal of Experimental Psychology}, \emph{62}(9), 1757--1783. \url{https://doi.org/cds843}
+
+\leavevmode\hypertarget{ref-kaminPredictabilitySurpriseAttention1969}{}%
+Kamin, L. J. (1969). Predictability, surprise, attention, and conditioning. In B. A. Campbell \& R. M. Church (Eds.), \emph{Punishment and {Aversive Behavior}} (pp. 279--296). {Apple-Century-Crofts}.
+
+\leavevmode\hypertarget{ref-murdockTODAM2ModelStorage1993}{}%
+Murdock, B. B. (1993). {TODAM2}: A model for the storage and retrieval of item, associative, and serial-order information. \emph{Psychological Review}, \emph{100}(2), 183--203. \url{https://doi.org/fwc536}
+
+\leavevmode\hypertarget{ref-R-base}{}%
+R Core Team. (2020). \emph{R: A language and environment for statistical computing}. Vienna, Austria: R Foundation for Statistical Computing. Retrieved from \url{https://www.R-project.org/}
+
+\leavevmode\hypertarget{ref-rescorlaTheoryPavlovianConditioning1972}{}%
+Rescorla, R. A., \& Wagner, A. R. (1972). A theory of {Pavlovian} conditioning: {Variations} in the effectiveness of reinforcement and nonreinforcement. In A. H. Black \& W. F. Prokasy (Eds.), \emph{Classical conditioning {II}: {Current} research and theory} (pp. 64--99). {New York: Appleton-Century Crofts}.
+
+\leavevmode\hypertarget{ref-shanksForwardBackwardBlocking1985}{}%
+Shanks, D. R. (1985). Forward and backward blocking in human contingency judgement. \emph{The Quarterly Journal of Experimental Psychology Section B}, \emph{37}, 1--21. \url{https://doi.org/gf9j46}
+
+\leavevmode\hypertarget{ref-siegelApplyingSignalDetection2009}{}%
+Siegel, S., Allan, L. G., Hannah, S. D., \& Crump, M. J. C. (2009). Applying signal detection theory to contingency assessment. \emph{Comparative Cognition \& Behavior Reviews}, \emph{4}, 116--134. \url{https://doi.org/c7rmqj}
+
+\leavevmode\hypertarget{ref-R-ggplot2}{}%
+Wickham, H., Chang, W., Henry, L., Pedersen, T. L., Takahashi, K., Wilke, C., \ldots{} Dunnington, D. (2020). \emph{ggplot2: Create elegant data visualisations using the grammar of graphics}. Retrieved from \url{https://CRAN.R-project.org/package=ggplot2}
+
+\leavevmode\hypertarget{ref-R-lsa}{}%
+Wild, F. (2020). \emph{Lsa: Latent semantic analysis}. Retrieved from \url{https://CRAN.R-project.org/package=lsa}
+
+\leavevmode\hypertarget{ref-R-knitr}{}%
+Xie, Y. (2020). \emph{Knitr: A general-purpose package for dynamic report generation in r}. Retrieved from \url{https://yihui.org/knitr/}
+
+\end{CSLReferences}
+
+\endgroup
+
+
+\clearpage
+\makeatletter
+\efloat@restorefloats
+\makeatother
+
+
+\begin{appendix}
+\section{}
+\singlespacing
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\#\# Model code for simulation 1}
+
+\DocumentationTok{\#\# create contingency task trials}
+
+\NormalTok{create\_trials }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(A, B, C, D, vector\_length, }\AttributeTok{shuffle=}\ConstantTok{FALSE}\NormalTok{)\{}
+
+\NormalTok{  event\_frequencies }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{4}\NormalTok{), }\AttributeTok{times =} \FunctionTok{c}\NormalTok{(A,B,C,D))}
+
+\NormalTok{  event\_pairs }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\FunctionTok{rep}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{), }\AttributeTok{each =}\NormalTok{ vector\_length),}
+\FunctionTok{rep}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{), }\AttributeTok{each =}\NormalTok{ vector\_length),}
+\FunctionTok{rep}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{), }\AttributeTok{each =}\NormalTok{ vector\_length),}
+\FunctionTok{rep}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{), }\AttributeTok{each =}\NormalTok{ vector\_length)),}
+\AttributeTok{ncol=}\NormalTok{ vector\_length}\SpecialCharTok{*}\DecValTok{3}\NormalTok{,}
+\AttributeTok{byrow=}\ConstantTok{TRUE}\NormalTok{)}
+
+\NormalTok{  event\_matrix }\OtherTok{\textless{}{-}}\NormalTok{ event\_pairs[event\_frequencies,]}
+
+\ControlFlowTok{if}\NormalTok{(shuffle}\SpecialCharTok{==}\ConstantTok{FALSE}\NormalTok{) \{}\FunctionTok{return}\NormalTok{(event\_matrix)}
+\NormalTok{    \}}\ControlFlowTok{else}\NormalTok{\{}
+\FunctionTok{return}\NormalTok{(event\_matrix[}\FunctionTok{sample}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(event\_frequencies)),])}
+\NormalTok{    \}}
+
+\NormalTok{\}}
+
+\DocumentationTok{\#\# Run the model function}
+
+\NormalTok{run\_model }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(trials,probe)\{}
+\NormalTok{  memory }\OtherTok{\textless{}{-}}\NormalTok{ trials}
+
+\CommentTok{\#probe memory with cue only}
+
+\NormalTok{  similarities }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{()}
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{dim}\NormalTok{(memory)[}\DecValTok{1}\NormalTok{])\{}
+\NormalTok{    similarities[i] }\OtherTok{\textless{}{-}}\NormalTok{ lsa}\SpecialCharTok{::}\FunctionTok{cosine}\NormalTok{(probe,memory[i,])}
+\NormalTok{  \}}
+\NormalTok{  similarities[}\FunctionTok{is.nan}\NormalTok{(similarities)]}\OtherTok{\textless{}{-}}\DecValTok{0}
+
+\CommentTok{\# generate echo}
+\NormalTok{  weighted\_memory }\OtherTok{\textless{}{-}}\NormalTok{ memory}\SpecialCharTok{*}\NormalTok{(similarities}\SpecialCharTok{\^{}}\DecValTok{3}\NormalTok{)}
+\NormalTok{  echo }\OtherTok{\textless{}{-}} \FunctionTok{colSums}\NormalTok{(weighted\_memory)}
+
+\FunctionTok{return}\NormalTok{(echo)}
+\NormalTok{\}}
+
+\DocumentationTok{\#\#\# DEFINE conditions}
+
+\NormalTok{conditions }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(}\FunctionTok{list}\NormalTok{(}\AttributeTok{outcome\_density =}\NormalTok{ .}\DecValTok{2}\NormalTok{,}
+\AttributeTok{delta\_p =} \DecValTok{0}\NormalTok{,}
+\AttributeTok{frequencies =} \FunctionTok{c}\NormalTok{(}\DecValTok{6}\NormalTok{,}\DecValTok{24}\NormalTok{,}\DecValTok{6}\NormalTok{,}\DecValTok{24}\NormalTok{)),}
+\FunctionTok{list}\NormalTok{(}\AttributeTok{outcome\_density =}\NormalTok{ .}\DecValTok{8}\NormalTok{,}
+\AttributeTok{delta\_p =} \DecValTok{0}\NormalTok{,}
+\AttributeTok{frequencies =} \FunctionTok{c}\NormalTok{(}\DecValTok{24}\NormalTok{,}\DecValTok{6}\NormalTok{,}\DecValTok{24}\NormalTok{,}\DecValTok{6}\NormalTok{)),}
+\FunctionTok{list}\NormalTok{(}\AttributeTok{outcome\_density =}\NormalTok{ .}\DecValTok{33}\NormalTok{,}
+\AttributeTok{delta\_p =}\NormalTok{ .}\DecValTok{467}\NormalTok{,}
+\AttributeTok{frequencies =} \FunctionTok{c}\NormalTok{(}\DecValTok{17}\NormalTok{,}\DecValTok{13}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{27}\NormalTok{)),}
+\FunctionTok{list}\NormalTok{(}\AttributeTok{outcome\_density =}\NormalTok{ .}\DecValTok{67}\NormalTok{,}
+\AttributeTok{delta\_p =}\NormalTok{ .}\DecValTok{467}\NormalTok{,}
+\AttributeTok{frequencies =} \FunctionTok{c}\NormalTok{(}\DecValTok{27}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{13}\NormalTok{,}\DecValTok{17}\NormalTok{))}
+\NormalTok{                   )}
+
+\NormalTok{model\_data}\OtherTok{\textless{}{-}}\FunctionTok{data.frame}\NormalTok{() }\CommentTok{\#initialize data frame}
+
+\DocumentationTok{\#\# Run the model across conditions}
+
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{)\{}
+\NormalTok{  trials }\OtherTok{\textless{}{-}} \FunctionTok{create\_trials}\NormalTok{(}\AttributeTok{A=}\NormalTok{conditions[[i]]}\SpecialCharTok{$}\NormalTok{frequencies[}\DecValTok{1}\NormalTok{],}
+\AttributeTok{B=}\NormalTok{conditions[[i]]}\SpecialCharTok{$}\NormalTok{frequencies[}\DecValTok{2}\NormalTok{],}
+\AttributeTok{C=}\NormalTok{conditions[[i]]}\SpecialCharTok{$}\NormalTok{frequencies[}\DecValTok{3}\NormalTok{],}
+\AttributeTok{D=}\NormalTok{conditions[[i]]}\SpecialCharTok{$}\NormalTok{frequencies[}\DecValTok{4}\NormalTok{],}
+\AttributeTok{vector\_length =} \DecValTok{10}\NormalTok{,}
+\AttributeTok{shuffle=}\ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{  model\_output }\OtherTok{\textless{}{-}} \FunctionTok{run\_model}\NormalTok{(}\AttributeTok{trials=}\NormalTok{trials,}\AttributeTok{probe =} \FunctionTok{rep}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{),}\AttributeTok{each=}\DecValTok{10}\NormalTok{))}
+\NormalTok{  sim\_data }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{outcome\_density =}\NormalTok{ conditions[[i]]}\SpecialCharTok{$}\NormalTok{outcome\_density,}
+\AttributeTok{delta\_p =}\NormalTok{ conditions[[i]]}\SpecialCharTok{$}\NormalTok{delta\_p,}
+\AttributeTok{expectation =}\NormalTok{ model\_output[}\DecValTok{11}\NormalTok{])}
+\NormalTok{  model\_data }\OtherTok{\textless{}{-}} \FunctionTok{rbind}\NormalTok{(model\_data,sim\_data)}
+\NormalTok{\}}
+
+\CommentTok{\# print table}
+\CommentTok{\#knitr::kable(model\_data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# plot}
+\FunctionTok{library}\NormalTok{(ggplot2)}
+
+\FunctionTok{ggplot}\NormalTok{(model\_data,}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{outcome\_density,}
+\AttributeTok{y=}\NormalTok{expectation,}
+\AttributeTok{group=}\NormalTok{delta\_p,}
+\AttributeTok{color=}\NormalTok{delta\_p))}\SpecialCharTok{+}
+\FunctionTok{geom\_line}\NormalTok{()}\SpecialCharTok{+}
+\FunctionTok{geom\_point}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\newpage
+
+\singlespacing
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Simulation 2}
+
+\NormalTok{run\_model\_activations }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(trials,probe,resonance)\{}
+\NormalTok{  memory }\OtherTok{\textless{}{-}}\NormalTok{ trials}
+
+\CommentTok{\#probe memory with cue only}
+
+\NormalTok{  similarities }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{()}
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{dim}\NormalTok{(memory)[}\DecValTok{1}\NormalTok{])\{}
+\NormalTok{    similarities[i] }\OtherTok{\textless{}{-}}\NormalTok{ lsa}\SpecialCharTok{::}\FunctionTok{cosine}\NormalTok{(probe,memory[i,])}
+\NormalTok{  \}}
+\NormalTok{  similarities[}\FunctionTok{is.nan}\NormalTok{(similarities)] }\OtherTok{\textless{}{-}} \DecValTok{0}
+
+\CommentTok{\# get activations}
+\NormalTok{  activations }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(similarities}\SpecialCharTok{\^{}}\NormalTok{resonance)}
+
+\FunctionTok{return}\NormalTok{(activations)}
+\NormalTok{\}}
+
+\CommentTok{\# frequency judgment simulation}
+\NormalTok{freq\_model\_data }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{() }\CommentTok{\#initialize data frame}
+
+\DocumentationTok{\#\# Run the model across conditions}
+
+\ControlFlowTok{for}\NormalTok{(tau }\ControlFlowTok{in} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{9}\NormalTok{,}\DecValTok{15}\NormalTok{,}\DecValTok{21}\NormalTok{,}\DecValTok{27}\NormalTok{))\{}
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{)\{}
+\NormalTok{    trials }\OtherTok{\textless{}{-}} \FunctionTok{create\_trials}\NormalTok{(}\AttributeTok{A=}\NormalTok{conditions[[i]]}\SpecialCharTok{$}\NormalTok{frequencies[}\DecValTok{1}\NormalTok{],}
+\AttributeTok{B=}\NormalTok{conditions[[i]]}\SpecialCharTok{$}\NormalTok{frequencies[}\DecValTok{2}\NormalTok{],}
+\AttributeTok{C=}\NormalTok{conditions[[i]]}\SpecialCharTok{$}\NormalTok{frequencies[}\DecValTok{3}\NormalTok{],}
+\AttributeTok{D=}\NormalTok{conditions[[i]]}\SpecialCharTok{$}\NormalTok{frequencies[}\DecValTok{4}\NormalTok{],}
+\AttributeTok{vector\_length =} \DecValTok{10}\NormalTok{,}
+\AttributeTok{shuffle=}\ConstantTok{TRUE}\NormalTok{)}
+
+\NormalTok{    freq\_A }\OtherTok{\textless{}{-}} \FunctionTok{run\_model\_activations}\NormalTok{(}\AttributeTok{trials=}\NormalTok{trials,}
+\AttributeTok{probe =} \FunctionTok{rep}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{),}\AttributeTok{each=}\DecValTok{10}\NormalTok{),}
+\AttributeTok{resonance =}\NormalTok{ tau)}
+\NormalTok{    freq\_B }\OtherTok{\textless{}{-}} \FunctionTok{run\_model\_activations}\NormalTok{(}\AttributeTok{trials=}\NormalTok{trials,}
+\AttributeTok{probe =} \FunctionTok{rep}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{),}\AttributeTok{each=}\DecValTok{10}\NormalTok{),}
+\AttributeTok{resonance =}\NormalTok{ tau)}
+\NormalTok{    freq\_C }\OtherTok{\textless{}{-}} \FunctionTok{run\_model\_activations}\NormalTok{(}\AttributeTok{trials=}\NormalTok{trials,}
+\AttributeTok{probe =} \FunctionTok{rep}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{),}\AttributeTok{each=}\DecValTok{10}\NormalTok{),}
+\AttributeTok{resonance =}\NormalTok{ tau)}
+\NormalTok{    freq\_D }\OtherTok{\textless{}{-}} \FunctionTok{run\_model\_activations}\NormalTok{(}\AttributeTok{trials=}\NormalTok{trials,}
+\AttributeTok{probe =} \FunctionTok{rep}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{),}\AttributeTok{each=}\DecValTok{10}\NormalTok{),}
+\AttributeTok{resonance =}\NormalTok{ tau)}
+
+\NormalTok{    sim\_data }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{outcome\_density =}\NormalTok{ conditions[[i]]}\SpecialCharTok{$}\NormalTok{outcome\_density,}
+\AttributeTok{delta\_p =}\NormalTok{ conditions[[i]]}\SpecialCharTok{$}\NormalTok{delta\_p,}
+\AttributeTok{expectation =}\NormalTok{ (freq\_A}\SpecialCharTok{/}\NormalTok{(freq\_A}\SpecialCharTok{+}\NormalTok{freq\_B)) }\SpecialCharTok{{-}}\NormalTok{ (freq\_C}\SpecialCharTok{/}\NormalTok{(freq\_C}\SpecialCharTok{+}\NormalTok{freq\_D)),}
+\AttributeTok{resonance =}\NormalTok{ tau)}
+
+\NormalTok{    freq\_model\_data }\OtherTok{\textless{}{-}} \FunctionTok{rbind}\NormalTok{(freq\_model\_data,sim\_data)}
+\NormalTok{  \}}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# plot}
+\FunctionTok{library}\NormalTok{(latex2exp)}
+\NormalTok{freq\_model\_data}\SpecialCharTok{$}\NormalTok{delta\_p }\OtherTok{\textless{}{-}} \FunctionTok{as.factor}\NormalTok{(freq\_model\_data}\SpecialCharTok{$}\NormalTok{delta\_p)}
+
+\FunctionTok{ggplot}\NormalTok{(freq\_model\_data,}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{outcome\_density,}
+\AttributeTok{y=}\NormalTok{expectation,}
+\AttributeTok{group=}\NormalTok{delta\_p,}
+\AttributeTok{color=}\NormalTok{delta\_p,}
+\AttributeTok{shape=}\NormalTok{delta\_p))}\SpecialCharTok{+}
+\FunctionTok{geom\_line}\NormalTok{()}\SpecialCharTok{+}
+\FunctionTok{geom\_point}\NormalTok{()}\SpecialCharTok{+}
+\FunctionTok{xlab}\NormalTok{(}\StringTok{"Probability of Outcome"}\NormalTok{)}\SpecialCharTok{+}
+\FunctionTok{ylab}\NormalTok{(}\FunctionTok{TeX}\NormalTok{(r}\StringTok{\textquotesingle{}(Simulated $\textbackslash{}Delta$P)\textquotesingle{}}\NormalTok{))}\SpecialCharTok{+}
+\FunctionTok{coord\_cartesian}\NormalTok{(}\AttributeTok{xlim=}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{))}\SpecialCharTok{+}
+\FunctionTok{scale\_color\_discrete}\NormalTok{(}\AttributeTok{name =} \FunctionTok{expression}\NormalTok{(Delta}\SpecialCharTok{\textasciitilde{}}\NormalTok{P))}\SpecialCharTok{+}
+\FunctionTok{scale\_shape\_discrete}\NormalTok{(}\AttributeTok{name =} \FunctionTok{expression}\NormalTok{(Delta}\SpecialCharTok{\textasciitilde{}}\NormalTok{P))}\SpecialCharTok{+}
+\FunctionTok{theme\_classic}\NormalTok{(}\AttributeTok{base\_size=}\DecValTok{12}\NormalTok{)}\SpecialCharTok{+}
+\FunctionTok{facet\_wrap}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{resonance)}
+\end{Highlighting}
+\end{Shaded}
+\end{appendix}
+
+\end{document}

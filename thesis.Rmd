@@ -281,7 +281,9 @@ Did our MINERVA model produce a similar $\triangle$P effect and outcome density 
 
 
 ```{r}
-run_model_activations <- function(trials,probe){
+## Simulation 2
+
+run_model_activations <- function(trials,probe,resonance){
   memory <- trials
 
 #probe memory with cue only
@@ -290,10 +292,10 @@ run_model_activations <- function(trials,probe){
   for(i in 1:dim(memory)[1]){
     similarities[i] <- lsa::cosine(probe,memory[i,])
   }
-  similarities[is.nan(similarities)]<-0
+  similarities[is.nan(similarities)] <- 0
 
   # get activations
-  activations <- sum(similarities^15)
+  activations <- sum(similarities^resonance)
 
   return(activations)
 }
@@ -303,30 +305,35 @@ freq_model_data <- data.frame() #initialize data frame
 
 ## Run the model across conditions
 
-for(i in 1:4){
-  trials <- create_trials(A=conditions[[i]]$frequencies[1],
-                          B=conditions[[i]]$frequencies[2],
-                          C=conditions[[i]]$frequencies[3],
-                          D=conditions[[i]]$frequencies[4],
-                          vector_length = 10,
-                          shuffle=TRUE)
-  
-  freq_A <- run_model_activations(trials=trials,probe = rep(c(1,1,1),each=10))
-  freq_B <- run_model_activations(trials=trials,probe = rep(c(1,0,1),each=10))
-  freq_C <- run_model_activations(trials=trials,probe = rep(c(0,1,1),each=10))
-  freq_D <- run_model_activations(trials=trials,probe = rep(c(0,0,1),each=10))
-  
-  sim_data <- data.frame(outcome_density = conditions[[i]]$outcome_density,
-                         delta_p = conditions[[i]]$delta_p,
-                         expectation = (freq_A/(freq_A+freq_B)) - (freq_C/(freq_C+freq_D)))
-  
-  freq_model_data <- rbind(freq_model_data,sim_data)
+for(tau in c(1,3,9,15,21,27)){
+  for(i in 1:4){
+    trials <- create_trials(A=conditions[[i]]$frequencies[1],
+                            B=conditions[[i]]$frequencies[2],
+                            C=conditions[[i]]$frequencies[3],
+                            D=conditions[[i]]$frequencies[4],
+                            vector_length = 10,
+                            shuffle=TRUE)
+    
+    freq_A <- run_model_activations(trials=trials,probe = rep(c(1,1,1),each=10),resonance = tau)
+    freq_B <- run_model_activations(trials=trials,probe = rep(c(1,0,1),each=10),resonance = tau)
+    freq_C <- run_model_activations(trials=trials,probe = rep(c(0,1,1),each=10),resonance = tau)
+    freq_D <- run_model_activations(trials=trials,probe = rep(c(0,0,1),each=10),resonance = tau)
+    
+    sim_data <- data.frame(outcome_density = conditions[[i]]$outcome_density,
+                           delta_p = conditions[[i]]$delta_p,
+                           expectation = (freq_A/(freq_A+freq_B)) - (freq_C/(freq_C+freq_D)),
+                           resonance = tau)
+    
+    freq_model_data <- rbind(freq_model_data,sim_data)
+  }
 }
+
+
 ```
 
-```{r, fig.cap = "Mean model contingency ratings derived from model estimates of frequency judgments.", fig.width=5, fig.height = 3, fig.align='center'}
+```{r, fig.cap = "Mean model contingency ratings derived from model estimates of frequency judgments.", fig.width=7, fig.height = 3, fig.align='center'}
 # plot
-
+library(latex2exp)
 freq_model_data$delta_p <- as.factor(freq_model_data$delta_p)
 
 ggplot(freq_model_data,aes(x=outcome_density,
@@ -337,11 +344,12 @@ ggplot(freq_model_data,aes(x=outcome_density,
   geom_line()+
   geom_point()+
   xlab("Probability of Outcome")+
-  ylab("Outcome Activation  \n Strength in Echo")+
+  ylab(TeX(r'(Simulated $\Delta$P)'))+
   coord_cartesian(xlim=c(0,1))+
   scale_color_discrete(name = expression(Delta~P))+
   scale_shape_discrete(name = expression(Delta~P))+
-  theme_classic(base_size=12)
+  theme_classic(base_size=20)+
+  facet_wrap(~resonance)
 
 ```
 

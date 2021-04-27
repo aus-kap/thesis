@@ -5,8 +5,8 @@
 
 
 \begin{appendix}
-\hypertarget{appendix-1}{%
-\section{Appendix 1}\label{appendix-1}}
+\section{}
+\singlespacing
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -104,6 +104,92 @@
                       \AttributeTok{color=}\NormalTok{delta\_p))}\SpecialCharTok{+}
   \FunctionTok{geom\_line}\NormalTok{()}\SpecialCharTok{+}
   \FunctionTok{geom\_point}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\newpage
+
+\singlespacing
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Simulation 2}
+
+\NormalTok{run\_model\_activations }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(trials,probe,resonance)\{}
+\NormalTok{  memory }\OtherTok{\textless{}{-}}\NormalTok{ trials}
+
+\CommentTok{\#probe memory with cue only}
+
+\NormalTok{  similarities }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{()}
+  \ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{dim}\NormalTok{(memory)[}\DecValTok{1}\NormalTok{])\{}
+\NormalTok{    similarities[i] }\OtherTok{\textless{}{-}}\NormalTok{ lsa}\SpecialCharTok{::}\FunctionTok{cosine}\NormalTok{(probe,memory[i,])}
+\NormalTok{  \}}
+\NormalTok{  similarities[}\FunctionTok{is.nan}\NormalTok{(similarities)] }\OtherTok{\textless{}{-}} \DecValTok{0}
+
+  \CommentTok{\# get activations}
+\NormalTok{  activations }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(similarities}\SpecialCharTok{\^{}}\NormalTok{resonance)}
+
+  \FunctionTok{return}\NormalTok{(activations)}
+\NormalTok{\}}
+
+\CommentTok{\# frequency judgment simulation}
+\NormalTok{freq\_model\_data }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{() }\CommentTok{\#initialize data frame}
+
+\DocumentationTok{\#\# Run the model across conditions}
+
+\ControlFlowTok{for}\NormalTok{(tau }\ControlFlowTok{in} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{9}\NormalTok{,}\DecValTok{15}\NormalTok{,}\DecValTok{21}\NormalTok{,}\DecValTok{27}\NormalTok{))\{}
+  \ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{)\{}
+\NormalTok{    trials }\OtherTok{\textless{}{-}} \FunctionTok{create\_trials}\NormalTok{(}\AttributeTok{A=}\NormalTok{conditions[[i]]}\SpecialCharTok{$}\NormalTok{frequencies[}\DecValTok{1}\NormalTok{],}
+                            \AttributeTok{B=}\NormalTok{conditions[[i]]}\SpecialCharTok{$}\NormalTok{frequencies[}\DecValTok{2}\NormalTok{],}
+                            \AttributeTok{C=}\NormalTok{conditions[[i]]}\SpecialCharTok{$}\NormalTok{frequencies[}\DecValTok{3}\NormalTok{],}
+                            \AttributeTok{D=}\NormalTok{conditions[[i]]}\SpecialCharTok{$}\NormalTok{frequencies[}\DecValTok{4}\NormalTok{],}
+                            \AttributeTok{vector\_length =} \DecValTok{10}\NormalTok{,}
+                            \AttributeTok{shuffle=}\ConstantTok{TRUE}\NormalTok{)}
+    
+\NormalTok{    freq\_A }\OtherTok{\textless{}{-}} \FunctionTok{run\_model\_activations}\NormalTok{(}\AttributeTok{trials=}\NormalTok{trials,}
+                                    \AttributeTok{probe =} \FunctionTok{rep}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{),}\AttributeTok{each=}\DecValTok{10}\NormalTok{),}
+                                    \AttributeTok{resonance =}\NormalTok{ tau)}
+\NormalTok{    freq\_B }\OtherTok{\textless{}{-}} \FunctionTok{run\_model\_activations}\NormalTok{(}\AttributeTok{trials=}\NormalTok{trials,}
+                                    \AttributeTok{probe =} \FunctionTok{rep}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{),}\AttributeTok{each=}\DecValTok{10}\NormalTok{),}
+                                    \AttributeTok{resonance =}\NormalTok{ tau)}
+\NormalTok{    freq\_C }\OtherTok{\textless{}{-}} \FunctionTok{run\_model\_activations}\NormalTok{(}\AttributeTok{trials=}\NormalTok{trials,}
+                                    \AttributeTok{probe =} \FunctionTok{rep}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{),}\AttributeTok{each=}\DecValTok{10}\NormalTok{),}
+                                    \AttributeTok{resonance =}\NormalTok{ tau)}
+\NormalTok{    freq\_D }\OtherTok{\textless{}{-}} \FunctionTok{run\_model\_activations}\NormalTok{(}\AttributeTok{trials=}\NormalTok{trials,}
+                                    \AttributeTok{probe =} \FunctionTok{rep}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{),}\AttributeTok{each=}\DecValTok{10}\NormalTok{),}
+                                    \AttributeTok{resonance =}\NormalTok{ tau)}
+    
+\NormalTok{    sim\_data }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{outcome\_density =}\NormalTok{ conditions[[i]]}\SpecialCharTok{$}\NormalTok{outcome\_density,}
+                           \AttributeTok{delta\_p =}\NormalTok{ conditions[[i]]}\SpecialCharTok{$}\NormalTok{delta\_p,}
+                           \AttributeTok{expectation =}\NormalTok{ (freq\_A}\SpecialCharTok{/}\NormalTok{(freq\_A}\SpecialCharTok{+}\NormalTok{freq\_B)) }\SpecialCharTok{{-}}\NormalTok{ (freq\_C}\SpecialCharTok{/}\NormalTok{(freq\_C}\SpecialCharTok{+}\NormalTok{freq\_D)),}
+                           \AttributeTok{resonance =}\NormalTok{ tau)}
+    
+\NormalTok{    freq\_model\_data }\OtherTok{\textless{}{-}} \FunctionTok{rbind}\NormalTok{(freq\_model\_data,sim\_data)}
+\NormalTok{  \}}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# plot}
+\FunctionTok{library}\NormalTok{(latex2exp)}
+\NormalTok{freq\_model\_data}\SpecialCharTok{$}\NormalTok{delta\_p }\OtherTok{\textless{}{-}} \FunctionTok{as.factor}\NormalTok{(freq\_model\_data}\SpecialCharTok{$}\NormalTok{delta\_p)}
+
+\FunctionTok{ggplot}\NormalTok{(freq\_model\_data,}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{outcome\_density,}
+                      \AttributeTok{y=}\NormalTok{expectation,}
+                      \AttributeTok{group=}\NormalTok{delta\_p,}
+                      \AttributeTok{color=}\NormalTok{delta\_p,}
+                      \AttributeTok{shape=}\NormalTok{delta\_p))}\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{()}\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{()}\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Probability of Outcome"}\NormalTok{)}\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\FunctionTok{TeX}\NormalTok{(r}\StringTok{\textquotesingle{}(Simulated $\textbackslash{}Delta$P)\textquotesingle{}}\NormalTok{))}\SpecialCharTok{+}
+  \FunctionTok{coord\_cartesian}\NormalTok{(}\AttributeTok{xlim=}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{))}\SpecialCharTok{+}
+  \FunctionTok{scale\_color\_discrete}\NormalTok{(}\AttributeTok{name =} \FunctionTok{expression}\NormalTok{(Delta}\SpecialCharTok{\textasciitilde{}}\NormalTok{P))}\SpecialCharTok{+}
+  \FunctionTok{scale\_shape\_discrete}\NormalTok{(}\AttributeTok{name =} \FunctionTok{expression}\NormalTok{(Delta}\SpecialCharTok{\textasciitilde{}}\NormalTok{P))}\SpecialCharTok{+}
+  \FunctionTok{theme\_classic}\NormalTok{(}\AttributeTok{base\_size=}\DecValTok{12}\NormalTok{)}\SpecialCharTok{+}
+  \FunctionTok{facet\_wrap}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{resonance)}
 \end{Highlighting}
 \end{Shaded}
 \end{appendix}
