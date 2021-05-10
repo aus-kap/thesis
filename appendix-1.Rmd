@@ -7,6 +7,10 @@ output:
 
 \singlespacing
 
+# 
+
+This appendix contains the R script for Simulation 1.
+
 ```{r, eval=FALSE, echo=TRUE}
 ### Model code for simulation 1
 
@@ -105,6 +109,10 @@ ggplot(model_data,aes(x=outcome_density,
 \newpage
 
 \singlespacing
+
+# 
+
+This appendix contains the R script for Simulation 2.
 
 ```{r, eval=FALSE, echo=TRUE}
 ## Simulation 2
