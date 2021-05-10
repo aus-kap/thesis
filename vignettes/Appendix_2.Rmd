@@ -1,0 +1,100 @@
+---
+title: "Appendix_2"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Appendix_2}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+
+```
+
+This appendix contains the R script for Simulation 2.
+
+```{r, eval=FALSE, echo=TRUE}
+## Simulation 2
+
+run_model_activations <- function(trials,probe,resonance){
+  memory <- trials
+
+#probe memory with cue only
+
+  similarities <- c()
+  for(i in 1:dim(memory)[1]){
+    similarities[i] <- lsa::cosine(probe,memory[i,])
+  }
+  similarities[is.nan(similarities)] <- 0
+
+  # get activations
+  activations <- sum(similarities^resonance)
+
+  return(activations)
+}
+
+# frequency judgment simulation
+freq_model_data <- data.frame() #initialize data frame
+
+## Run the model across conditions
+
+for(tau in c(1,3,9,15,21,27)){
+  for(i in 1:4){
+    trials <- create_trials(A=conditions[[i]]$frequencies[1],
+                            B=conditions[[i]]$frequencies[2],
+                            C=conditions[[i]]$frequencies[3],
+                            D=conditions[[i]]$frequencies[4],
+                            vector_length = 10,
+                            shuffle=TRUE)
+    
+    freq_A <- run_model_activations(trials=trials,
+                                    probe = rep(c(1,1,1),each=10),
+                                    resonance = tau)
+    freq_B <- run_model_activations(trials=trials,
+                                    probe = rep(c(1,0,1),each=10),
+                                    resonance = tau)
+    freq_C <- run_model_activations(trials=trials,
+                                    probe = rep(c(0,1,1),each=10),
+                                    resonance = tau)
+    freq_D <- run_model_activations(trials=trials,
+                                    probe = rep(c(0,0,1),each=10),
+                                    resonance = tau)
+    
+    sim_data <- data.frame(outcome_density = conditions[[i]]$outcome_density,
+                           delta_p = conditions[[i]]$delta_p,
+                           expectation = (freq_A/(freq_A+freq_B)) - (freq_C/(freq_C+freq_D)),
+                           resonance = tau)
+    
+    freq_model_data <- rbind(freq_model_data,sim_data)
+  }
+}
+```
+
+```{r, eval=FALSE, echo=TRUE}
+# plot
+library(latex2exp)
+freq_model_data$delta_p <- as.factor(freq_model_data$delta_p)
+
+ggplot(freq_model_data,aes(x=outcome_density,
+                      y=expectation,
+                      group=delta_p,
+                      color=delta_p,
+                      shape=delta_p))+
+  geom_line()+
+  geom_point()+
+  xlab("Probability of Outcome")+
+  ylab(TeX(r'(Simulated $\Delta$P)'))+
+  coord_cartesian(xlim=c(0,1))+
+  scale_color_discrete(name = expression(Delta~P))+
+  scale_shape_discrete(name = expression(Delta~P))+
+  theme_classic(base_size=12)+
+  facet_wrap(~resonance)
+
+```
