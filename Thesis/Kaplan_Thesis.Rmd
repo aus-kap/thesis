@@ -11,10 +11,11 @@ author:
 
 affiliation:
   - id            : "1"
-    institution   : "Brooklyn College"
+    institution   : "Advisor: Dr. Matthew Crump \\newline PSYC 5002 Independent Research \\newline Spring 2021 \\newline Department of Psychology \\newline Brooklyn College of the City University of New York"
 
 authornote: |
-  Brooklyn College of Psychology, submitted for PSYC 5001 (Dr. Matthew Crump) as part of a two-semester honors thesis. This paper will be integrated into the final honors thesis to be submitted for PSYC 5002.
+  Honors Thesis submitted to the Department of Psychology in partial fulfillment of the requirements for consideration of Graduating with Departmental Honors in Psychology Brooklyn College of The City University of New York
+
 
 abstract: |
   The purpose of this thesis was to  develop and test an account of human contingency judgments based on a computational model of human memory. Specifically, we used MINERVA 2, a simulation model of episodic memory (Hintzman, 1986). MINERVA 2 is a model of encoding and retrieval. It assumes that individual experiences are encoded as memory traces, and that traces are retrieved as a function of their similarity to an environmental stimulus.  I tested the model by attempting to simulate a study done by Crump, Hannah, Allan, and Hord (2007), that illustrated two major phenomena in the contingency judgment literature, such as the $\triangle$P and outcome density effects. I show that the model can successfully account for both normative contingency judgment behavior and the outcome density bias, and discuss implications for future research.
@@ -431,7 +432,14 @@ ggplot(freq_model_data,aes(x=outcome_density,
 
 # General Discussion
 
+
 The purpose of this experiment was to create a simulated version of the study performed by @crumpContingencyJudgementsFly2007. In general, our model was able to replicate several attributes of the in-person study, such as the $\triangle$P conditions and the outcome densities associated with them. This suggests that contingency judgments can be explained in terms of memory processes.
+
+Why did our model, as well as the human participants of the original study, tend to report a contingency when one was not present (the outcome density effect), yet also tend to report accurate estimates of frequency? It may be the case that bias was developed through novel experience. As mentioned earlier, @rescorlaTheoryPavlovianConditioning1972, suggests that a novel stimulus is more likely to facilitate learning compared to one previously experienced. In other words, novel results of actions may be correlated with a greater tendency to remember. Drawing further upon the car accident example stated earlier, a person could be more likely to remember the times they drove to work and witnessed the aftermath of a car accident rather than the times that they drove to work and no remarkable events occurred.  If asked whether there is a contingency between driving to work and being slowed down by traffic, a person may report one. However, this may not be the case if, out of the 300 days a year in which they drive to work, only 100 of them were slowed down by traffic.
+
+It may also be the case that bias occurs simply due to framing. Consider the same car accident example in relation to a frequency estimate task. If asked how frequently one witnesses traffic out of the 300 days they drive to work, one is more likely to report a number closer to 100 rather than 150 or greater, implying no contingency. In this scenario, the nature of the question could have influenced the participant's bias. Asking one to remember instances where two events occurred together rather than instances of one type of event may create a form of noise interference.
+
+Additionally, a fondness for positive events may affect memory traces, resulting in a person reporting a contingency between their actions and the particular event occurring. For instance, in @allanJudgmentContingencyNature1980, the authors state that participants were more likely to report a contingency when a positive outcome occurred. People may be more likely to remember events when those events cause results rather than when they do nothing. Consider an example described in @allanJudgmentContingencyNature1980, where an employee who asks for a raise (cue) and gets it (outcome) may conclude that had he remained silent, he would not have received a raise. This is contrasted with another scenario of an employee who does not ask for a raise (no cue) and does not get it (no outcome) is unlikely to conclude that he would have received a raise if he had asked for one. However, the employee from the first scenario is making a faulty assumption due to the conjunction of events, not of non-events [@allanJudgmentContingencyNature1980]. It could be the case that his employer was planning to give him a raise regardless of his inquisition, however, the series of events that took place have led the employee to falsely believe that his actions made a difference. 
 
 ## Limitations
 
@@ -439,31 +447,13 @@ Our model contains several key differences when compared with the original study
 
 In order to create a simulated version of memory, our model makes several assumptions. For instance, our model assumes that each memory has its own trace (multiple-trace theory). In order to operationalize cue and outcome events, we use binary values to represent the presence or absence of an occurrence. To operationalize similarity between events, we use the cosine function. We also use resonance to operationalize a way to amplify the relative differences in our data. 
 
+Frequency is defined as the sum of the activated memory traces. If one trace is very similar to many other traces, the frequency value is high. To account for context, we added a value of 1 to every trace in our model. Therefore, every trace is similar in some way. Theoretically, if we could code the model in such a way where each representation (A, B, C, or D) did not influence each other at all, then we could isolate the strength of each particular trace in memory. However, doing so may result in the model behaving less realistically. In the real world, when humans are trying to remember a particular memory, they likely think of several experiences in order to remember specific information. For example, if someone has lost their keyring, they may think of all the times that they have seen their keyring in the last week in order to help remember its current location. They may begin by thinking more generally (all of the instances in which their keys were present), and eventually start to think more specifically (all of the instances in which they walked away after putting down their keyring). In our model, we use resonance in order to operationalize specificity as a representation of this idea. 
 
-<!-- 
-Consider adding some discussion about the psychological representation of similarity
-
-Some points to consider:
-
-- we are making assumptions in the model about similarity relations between memory traces
--  We defined the representations for cues and outcomes in a simple fashion, using binary values to signify presence or absence. These assumptions impact the similarities between events. We are also assuming the cosine function to operationalize similarity. 
-
-- with resonance we are assuming that there is a process that can bring out relative differences between similarities.
-
-Some questions to consider:
-
-How does our feature representation scheme influence similarity between traces and probes, and overall model behavior?
-
-What kinds of representational schemes are theoretically sensible? How should we code for the presence or absence of features in a feature vector?
-
--->
-
-By studying contingency judgments, we can gain a better understanding of factors that influence learning, memory, and eventually decision making. Our results indicate that there is a relationship between the number of times an outcome is shown, and one's prediction of whether or not an outcome will occur based on a cue. This general principle may have real-world implications, such as in regard to interpreting data. One may falsely attribute one variable to causing another based on often experiencing both variables together. This relates to the statistical principle "correlation does not imply causation". 
+By studying contingency judgments, we can gain a better understanding of factors that influence learning, memory, and eventually decision making. Our results indicate that there is a relationship between the number of times an outcome is shown, and one's prediction of whether or not an outcome will occur based on a cue. This general principle may have real-world implications, such as in regard to interpreting data. One may falsely attribute one variable to causing another based on often experiencing both variables together.
 
 ## Future Research
 
-In order to create a model that produces results that are more accurate to the original study, we could create a negative contingency condition. This condition would set P equal to -.467, meaning that the presence of a cue would predict the absence of an outcome. This has the potential to make the model more likely to give negative ratings of contingency.
-
+In order to create a model that produces results that are more accurate to the original study, we could create a negative contingency condition. This condition would set $\triangle$P equal to -.467, meaning that the presence of a cue would predict the absence of an outcome. This has the potential to make the model more likely to give negative ratings of contingency. Additionally, we could present the model with different types of cues and outcomes, other than binary variables. This would potentially allow for more detailed responses from the model. 
 
 \newpage
 

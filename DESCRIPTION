@@ -1,11 +1,10 @@
 Package: thesis
 Title: Austin Kaplan's Honors Thesis Spring 2021
-Version: 0.0.0.9000
+Version: 0.0.1.0000
 Authors@R: 
     person(given = "Austin",
            family = "Kaplan",
-           role = c("aut", "cre"),
-           email = "mcrump@brooklyn.cuny.edu"))
+           role = c("aut", "cre"))
 Description: Austin Kaplan's Honors Thesis Spring 2021.
 License: 
 Encoding: UTF-8

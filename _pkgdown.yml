@@ -30,12 +30,12 @@ navbar:
     github:
       text: source code
       icon: fa-lg fa-github
-      href: https://github.com/user/repo
+      href: https://github.com/aus-kap/thesis
 
 home:
   strip_header: true
   links:
-    - text: A link to X
-      href: some link
+    - text: source code repository
+      href: https://github.com/aus-kap/thesis
   Authors:
-    - text: Author 1
+    - text: Austin Kaplan
